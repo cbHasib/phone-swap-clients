@@ -73,7 +73,7 @@ const Header = () => {
           {user ? (
             <>
               <UserNavItems />
-              <div className="lg:hidden">
+              <div className="md:hidden">
                 <MenuItem />
               </div>
             </>
@@ -93,7 +93,7 @@ const Header = () => {
               >
                 Register
               </Button>
-              <div className="lg:hidden">
+              <div className="md:hidden">
                 <MenuItem />
               </div>
             </>
