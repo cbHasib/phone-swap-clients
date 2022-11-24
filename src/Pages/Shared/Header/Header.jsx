@@ -33,7 +33,7 @@ const Header = () => {
   return (
     <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50 shadow">
       <Navbar
-        className="px-8 sm:px-4 py-3 w-full max-w-7xl mx-auto z-20 dark:!bg-gray-900"
+        className="px-4 py-3 w-full max-w-7xl mx-auto z-20 dark:!bg-gray-900"
         fluid={true}
       >
         <Navbar.Brand className="cursor-pointer" onClick={() => navigate("/")}>
