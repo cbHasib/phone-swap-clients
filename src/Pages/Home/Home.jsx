@@ -1,10 +1,10 @@
-import { Dialog, Menu, Transition } from '@headlessui/react';
-import React, { useState } from 'react';
+import { Menu, Transition } from "@headlessui/react";
+import React, { useState } from "react";
 
 const Home = () => {
-    const [isOpen, setIsOpen] = useState(false)
-    return (
-        <div className="fixed top-16 w-56 text-right">
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <div className="fixed top-16 w-56 text-right">
       <Menu as="div" className="relative inline-block text-left">
         <div>
           <Menu.Button className="inline-flex w-full justify-center rounded-md bg-black bg-opacity-20 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
@@ -12,11 +12,12 @@ const Home = () => {
             <div
               className="ml-2 -mr-1 h-5 w-5 text-violet-200 hover:text-violet-100"
               aria-hidden="true"
-            >+</div>
+            >
+              +
+            </div>
           </Menu.Button>
         </div>
         <Transition
-        
           enter="transition ease-out duration-100"
           enterFrom="transform opacity-0 scale-95"
           enterTo="transform opacity-100 scale-100"
@@ -30,7 +31,7 @@ const Home = () => {
                 {({ active }) => (
                   <button
                     className={`${
-                      active ? 'bg-violet-500 text-white' : 'text-gray-900'
+                      active ? "bg-violet-500 text-white" : "text-gray-900"
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                   >
                     {active ? (
@@ -52,7 +53,7 @@ const Home = () => {
                 {({ active }) => (
                   <button
                     className={`${
-                      active ? 'bg-violet-500 text-white' : 'text-gray-900'
+                      active ? "bg-violet-500 text-white" : "text-gray-900"
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                   >
                     {active ? (
@@ -76,7 +77,7 @@ const Home = () => {
                 {({ active }) => (
                   <button
                     className={`${
-                      active ? 'bg-violet-500 text-white' : 'text-gray-900'
+                      active ? "bg-violet-500 text-white" : "text-gray-900"
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                   >
                     {active ? (
@@ -98,7 +99,7 @@ const Home = () => {
                 {({ active }) => (
                   <button
                     className={`${
-                      active ? 'bg-violet-500 text-white' : 'text-gray-900'
+                      active ? "bg-violet-500 text-white" : "text-gray-900"
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                   >
                     {active ? (
@@ -122,7 +123,7 @@ const Home = () => {
                 {({ active }) => (
                   <button
                     className={`${
-                      active ? 'bg-violet-500 text-white' : 'text-gray-900'
+                      active ? "bg-violet-500 text-white" : "text-gray-900"
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                   >
                     {active ? (
@@ -145,8 +146,8 @@ const Home = () => {
         </Transition>
       </Menu>
     </div>
-  )
-}
+  );
+};
 
 function EditInactiveIcon(props) {
   return (
@@ -163,7 +164,7 @@ function EditInactiveIcon(props) {
         strokeWidth="2"
       />
     </svg>
-  )
+  );
 }
 
 function EditActiveIcon(props) {
@@ -181,7 +182,7 @@ function EditActiveIcon(props) {
         strokeWidth="2"
       />
     </svg>
-  )
+  );
 }
 
 function DuplicateInactiveIcon(props) {
@@ -205,7 +206,7 @@ function DuplicateInactiveIcon(props) {
         strokeWidth="2"
       />
     </svg>
-  )
+  );
 }
 
 function DuplicateActiveIcon(props) {
@@ -229,7 +230,7 @@ function DuplicateActiveIcon(props) {
         strokeWidth="2"
       />
     </svg>
-  )
+  );
 }
 
 function ArchiveInactiveIcon(props) {
@@ -260,7 +261,7 @@ function ArchiveInactiveIcon(props) {
       />
       <path d="M8 12H12" stroke="#A78BFA" strokeWidth="2" />
     </svg>
-  )
+  );
 }
 
 function ArchiveActiveIcon(props) {
@@ -291,7 +292,7 @@ function ArchiveActiveIcon(props) {
       />
       <path d="M8 12H12" stroke="#A78BFA" strokeWidth="2" />
     </svg>
-  )
+  );
 }
 
 function MoveInactiveIcon(props) {
@@ -306,7 +307,7 @@ function MoveInactiveIcon(props) {
       <path d="M16 4L8 12" stroke="#A78BFA" strokeWidth="2" />
       <path d="M8 6H4V16H14V12" stroke="#A78BFA" strokeWidth="2" />
     </svg>
-  )
+  );
 }
 
 function MoveActiveIcon(props) {
@@ -321,7 +322,7 @@ function MoveActiveIcon(props) {
       <path d="M16 4L8 12" stroke="#C4B5FD" strokeWidth="2" />
       <path d="M8 6H4V16H14V12" stroke="#C4B5FD" strokeWidth="2" />
     </svg>
-  )
+  );
 }
 
 function DeleteInactiveIcon(props) {
@@ -344,7 +345,7 @@ function DeleteInactiveIcon(props) {
       <path d="M3 6H17" stroke="#A78BFA" strokeWidth="2" />
       <path d="M8 6V4H12V6" stroke="#A78BFA" strokeWidth="2" />
     </svg>
-  )
+  );
 }
 
 function DeleteActiveIcon(props) {
@@ -367,8 +368,7 @@ function DeleteActiveIcon(props) {
       <path d="M3 6H17" stroke="#C4B5FD" strokeWidth="2" />
       <path d="M8 6V4H12V6" stroke="#C4B5FD" strokeWidth="2" />
     </svg>
-  )
+  );
 }
-
 
 export default Home;
