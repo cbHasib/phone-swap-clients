@@ -1,11 +1,12 @@
 import { Menu, Transition } from "@headlessui/react";
 import { Avatar } from "flowbite-react";
-import React from "react";
+import React, { useContext } from "react";
 import { HiUserCircle } from "react-icons/hi";
 import { NavLink } from "react-router-dom";
+import { AuthContext } from "../../../Contexts/UserContext";
 
 const UserNavItems = () => {
-  const user = true;
+  const { user } = useContext(AuthContext);
 
   const menuItems = [
     {
