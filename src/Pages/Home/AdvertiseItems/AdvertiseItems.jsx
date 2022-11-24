@@ -3,13 +3,16 @@ import ProductCard from "../../Shared/Products/ProductCard/ProductCard";
 
 const AdvertiseItems = () => {
   return (
-    <div className="dark:bg-gray-800 border-b border-gray-200 px-5 py-10 lg:py-14">
+    <div className="dark:bg-gray-800 border-b border-gray-200 px-5 py-20">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-3xl font-bold text-blue-700">
+        <h2 className="text-3xl font-bold text-blue-700 dark:text-white/90 text-center">
           <span className="underline underline-offset-2">Sponsored</span> Ads
         </h2>
 
-        <div className="py-10">
+        <div className="py-10 flex flex-wrap gap-6 justify-center items-center">
+          <ProductCard />
+          <ProductCard />
+          <ProductCard />
           <ProductCard />
         </div>
       </div>
