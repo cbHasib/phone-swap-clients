@@ -82,7 +82,7 @@ const Header = () => {
               <Button
                 color={"gray"}
                 outline={false}
-                className="mr-3"
+                className="mr-3 hidden md:block"
                 onClick={() => navigate("/login")}
               >
                 Login
