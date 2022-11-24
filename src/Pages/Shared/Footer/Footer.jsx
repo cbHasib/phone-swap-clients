@@ -4,7 +4,7 @@ import logo from "../../../assets/images/logo.png";
 
 const Footer = () => {
   return (
-    <div className=" bg-gray-100 dark:bg-gray-900 pt-4 border-t mt-20 border-gray-200 dark:border-gray-800">
+    <div className=" bg-gray-100 dark:bg-gray-900 pt-4 border-t border-gray-200 dark:border-gray-800">
       <footer className="p-4 sm:p-6 max-w-7xl mx-auto">
         <div className="md:flex md:justify-between">
           <div className="mb-6 md:mb-0">
