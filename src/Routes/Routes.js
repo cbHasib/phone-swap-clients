@@ -3,6 +3,8 @@ import PhoneLayout from "../Layout/PhoneLayout";
 import About from "../Pages/About/About";
 import Login from "../Pages/Auth/Login/Login";
 import Register from "../Pages/Auth/Register/Register";
+import Blog from "../Pages/Blog/Blog";
+import SingleBlog from "../Pages/Blog/SingleBlog";
 import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 import Phones from "../Pages/Phones/Phones/Phones";
 
@@ -30,6 +32,14 @@ export const routes = createBrowserRouter([
       {
         path: "/register",
         element: <Register />,
+      },
+      {
+        path: "/blog",
+        element: <Blog />,
+      },
+      {
+        path: "/blog/post/:cat_slug/:slug",
+        element: <SingleBlog />,
       },
     ],
   },

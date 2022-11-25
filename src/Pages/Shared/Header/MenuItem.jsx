@@ -13,7 +13,7 @@ const MenuItem = () => {
     },
     {
       title: "Phones",
-      path: "/phones",
+      path: "/category",
     },
     {
       title: "About",

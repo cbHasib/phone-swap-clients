@@ -1,0 +1,26 @@
+.blogCard:hover .thumb-blogCard::before {
+    opacity: 1;
+}
+
+.blogCard .thumb-blogCard::before {
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    transition: .3s ease-in-out;
+    opacity: 0;
+    background: linear-gradient(100deg, rgba(0, 0, 255, .3), rgba(0, 0, 255, 0));
+    z-index: 2;
+}
+
+.blogCard:hover .thumb-blogCard img {
+    transform: scale(1.05);
+}
+
+.blogCard .thumb-blogCard img {
+    width: 100%;
+    object-fit: cover;
+    transition: .3s ease;
+}

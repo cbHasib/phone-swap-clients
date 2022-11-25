@@ -2,7 +2,7 @@ import React from "react";
 
 const LoadingSpinner = () => {
   return (
-    <div className="w-full flex justify-center items-center h-[80vh] dark:bg-gray-800">
+    <div className="w-full flex justify-center items-center h-[70vh] dark:bg-gray-800">
       <div aria-label="Loading..." role="status">
         <svg className="h-14 w-14 animate-spin" viewBox="3 3 18 18">
           <path

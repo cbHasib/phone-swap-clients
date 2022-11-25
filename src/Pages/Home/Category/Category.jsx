@@ -9,7 +9,7 @@ const Category = () => {
           Popular Categories
         </h2>
 
-        <div className="py-10 flex flex-wrap gap-6 justify-center items-center">
+        <div className="py-10 flex flex-wrap gap-3 justify-center items-center">
           <CategoryCard />
           <CategoryCard />
           <CategoryCard />

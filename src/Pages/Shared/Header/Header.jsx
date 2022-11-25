@@ -113,7 +113,7 @@ const Header = () => {
           </NavLink>
 
           <NavLink
-            to="/phones"
+            to="/category"
             className={({ isActive }) =>
               isActive
                 ? "block py-2 pr-4 pl-3 md:p-0 border-b border-blue-700 text-blue-700 dark:text-white/90 md:dark:hover:bg-transparent md:dark:hover:text-white"
