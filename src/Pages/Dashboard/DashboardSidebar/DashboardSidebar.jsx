@@ -179,7 +179,7 @@ const DashboardSidebar = () => {
     <>
       <li>
         <NavLink
-          to="/my-orders"
+          to="/dashboard/my-orders"
           className={({ isActive }) =>
             isActive
               ? "relative flex flex-row items-center h-11 focus:outline-none bg-blue-800 dark:bg-gray-600 text-white-800 border-l-4 border-transparent border-blue-400 dark:border-gray-800 pr-6"
@@ -195,7 +195,7 @@ const DashboardSidebar = () => {
 
       <li>
         <NavLink
-          to="/my-wishlist"
+          to="/dashboard/my-wishlist"
           className={({ isActive }) =>
             isActive
               ? "relative flex flex-row items-center h-11 focus:outline-none bg-blue-800 dark:bg-gray-600 text-white-800 border-l-4 border-transparent border-blue-400 dark:border-gray-800 pr-6"

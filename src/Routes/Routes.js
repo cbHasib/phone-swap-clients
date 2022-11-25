@@ -13,6 +13,8 @@ import Products from "../Pages/Dashboard/Admin/Products/Products";
 import ReportedProduct from "../Pages/Dashboard/Admin/ReportedProduct/ReportedProduct";
 import Sellers from "../Pages/Dashboard/Admin/Sellers/Sellers";
 import VerificationRequest from "../Pages/Dashboard/Admin/VerificationRequest/VerificationRequest";
+import MyOrders from "../Pages/Dashboard/Buyer/MyOrders/MyOrders";
+import MyWishlist from "../Pages/Dashboard/Buyer/MyWishlist/MyWishlist";
 import Profile from "../Pages/Dashboard/Profile/Profile/Profile";
 import UpdateProfile from "../Pages/Dashboard/Profile/UpdateProfile/UpdateProfile";
 import AddProduct from "../Pages/Dashboard/Seller/AddProduct/AddProduct";
@@ -132,6 +134,14 @@ export const routes = createBrowserRouter([
       {
         path: "/dashboard/my-buyers",
         element: <MyBuyers />,
+      },
+      {
+        path: "/dashboard/my-orders",
+        element: <MyOrders />,
+      },
+      {
+        path: "/dashboard/my-wishlist",
+        element: <MyWishlist />,
       },
       {
         path: "/dashboard/test",
