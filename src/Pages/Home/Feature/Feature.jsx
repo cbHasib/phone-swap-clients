@@ -1,10 +1,11 @@
 import React from "react";
+
 import {
-  CiBadgeDollar,
-  CiCircleCheck,
-  CiDiscount1,
-  CiSearch,
-} from "react-icons/ci";
+  BsCurrencyDollar,
+  BsPatchCheck,
+  BsSearch,
+  BsShop,
+} from "react-icons/bs";
 
 const Feature = () => {
   return (
@@ -15,7 +16,7 @@ const Feature = () => {
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 w-full">
           <div className="flex items-center gap-2 justify-center">
-            <CiSearch className="text-blue-600 w-20 h-20" />
+            <BsSearch className="text-blue-600 w-16 h-16" />
             <div>
               <h3 className="text-gray-100 font-bold text-base">
                 Search for your phone
@@ -27,7 +28,7 @@ const Feature = () => {
           </div>
 
           <div className="flex items-center gap-2 justify-center">
-            <CiCircleCheck className="text-blue-600 w-20 h-20" />
+            <BsPatchCheck className="text-blue-600 w-16 h-16" />
             <div>
               <h3 className="text-gray-100 font-bold text-base">
                 Select the best deal
@@ -39,7 +40,7 @@ const Feature = () => {
           </div>
 
           <div className="flex items-center gap-2 justify-center">
-            <CiDiscount1 className="text-blue-600 w-20 h-20" />
+            <BsShop className="text-blue-600 w-16 h-16" />
             <div>
               <h3 className="text-gray-100 font-bold text-base">
                 Post your device
@@ -51,7 +52,7 @@ const Feature = () => {
           </div>
 
           <div className="flex items-center gap-2 justify-center">
-            <CiBadgeDollar className="text-blue-600 w-20 h-20" />
+            <BsCurrencyDollar className="text-blue-600 w-16 h-16" />
             <div>
               <h3 className="text-gray-100 font-bold text-base">
                 Get your cash

@@ -3,7 +3,8 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { HiOutlineHeart } from "react-icons/hi";
 import { TbCurrencyTaka } from "react-icons/tb";
-import { CiClock2, CiLocationOn } from "react-icons/ci";
+import { AiOutlineClockCircle } from "react-icons/ai";
+import { GoLocation } from "react-icons/go";
 
 const ProductCard = () => {
   const navigate = useNavigate();
@@ -49,11 +50,11 @@ const ProductCard = () => {
 
             <div className="flex flex-wrap justify-between items-center my-2 font-medium text-gray-500 dark:text-gray-300 gap-2">
               <div className="flex items-center gap-1 justify-center w-fit">
-                <CiLocationOn className="text-blue-700 stroke-1" />
+                <GoLocation className="text-blue-700 stroke-1" />
                 <span>Dhaka, Bangladesh</span>
               </div>
               <div className="flex items-center justify-center gap-1 w-fit">
-                <CiClock2 className="text-blue-700 stroke-1" />
+                <AiOutlineClockCircle className="text-blue-700 stroke-1" />
                 <span>8 mins ago</span>
               </div>
             </div>
