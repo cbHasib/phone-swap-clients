@@ -31,28 +31,25 @@ const Blog = () => {
   useScrollToTop();
   useTitle("Blog");
 
+  if (load) {
+    return <LoadingSpinner />;
+  }
+
+  if (error) {
+    return <ErrorMessage error={error} />;
+  }
+
   return (
-    <>
-      {load ? (
-        <LoadingSpinner />
-      ) : error ? (
-        <div className="w-full h-[80vh]">
-          <ErrorMessage error={error} />
-        </div>
-      ) : (
-        <div className="p-[5%] py-10 text-center dark:bg-gray-900">
-          <h2 className="font-bold text-4xl my-10 text-black/90 dark:text-white/90">
-            Recent{" "}
-            <span className="text-blue-700 dark:text-blue-600">Blog</span>
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 xl:gap-8 xl:w-[90%] mx-auto">
-            {blogs?.map((blog) => (
-              <BlogCard key={blog._id} blog={blog} />
-            ))}
-          </div>
-        </div>
-      )}
-    </>
+    <div className="p-[5%] py-10 text-center dark:bg-gray-900">
+      <h2 className="font-bold text-4xl my-10 text-black/90 dark:text-white/90">
+        Recent <span className="text-blue-700 dark:text-blue-600">Blog</span>
+      </h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 xl:gap-8 xl:w-[90%] mx-auto">
+        {blogs?.map((blog) => (
+          <BlogCard key={blog._id} blog={blog} />
+        ))}
+      </div>
+    </div>
   );
 };
 

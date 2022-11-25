@@ -75,7 +75,7 @@ const PhonesCardVer = () => {
   // Date
 
   return (
-    <div className="max-w-[300px] w-full bg-white rounded-md shadow dark:bg-gray-900 drop-shadow-md dark:text-gray-100 p-3 flex flex-col justify-between text-center hover:-translate-y-1 duration-300 relative">
+    <div className="max-w-[330px] w-full bg-white rounded-md shadow dark:bg-gray-900 drop-shadow-md dark:text-gray-100 p-3 flex flex-col justify-between text-center hover:-translate-y-1 duration-300 relative">
       <div>
         <figure>
           <img
@@ -168,6 +168,7 @@ const PhonesCardVer = () => {
           size="sm"
           title="View Details"
           className="flex-1"
+          disabled={bookLoading}
         >
           <div className="flex items-center gap-2 ">
             {bookLoading ? (

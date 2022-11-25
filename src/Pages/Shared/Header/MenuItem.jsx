@@ -16,20 +16,16 @@ const MenuItem = () => {
       path: "/category",
     },
     {
+      title: "Blog",
+      path: "/blog",
+    },
+    {
       title: "About",
       path: "/about",
     },
     {
       title: "Contact",
       path: "/contact",
-    },
-    {
-      title: "Blog",
-      path: "/blog",
-    },
-    {
-      title: "Shop",
-      path: "/shop",
     },
   ];
 

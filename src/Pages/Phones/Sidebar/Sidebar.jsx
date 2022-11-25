@@ -34,7 +34,7 @@ const Sidebar = () => {
           Categories
         </h2>
 
-        <hr class="h-px bg-gray-200 border-0 dark:bg-gray-700" />
+        <hr className="h-px bg-gray-200 border-0 dark:bg-gray-700" />
 
         <div className="px-5 py-2 ml-2">
           <ul>

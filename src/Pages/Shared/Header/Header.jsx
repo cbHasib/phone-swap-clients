@@ -73,9 +73,6 @@ const Header = () => {
           {user ? (
             <>
               <UserNavItems />
-              <div className="md:hidden">
-                <MenuItem />
-              </div>
             </>
           ) : (
             <>
