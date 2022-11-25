@@ -1,3 +1,4 @@
+import DashboardLayout from "../Layout/DashboardLayout";
 import Main from "../Layout/Main";
 import PhoneLayout from "../Layout/PhoneLayout";
 import About from "../Pages/About/About";
@@ -6,6 +7,10 @@ import Register from "../Pages/Auth/Register/Register";
 import Blog from "../Pages/Blog/Blog";
 import SingleBlog from "../Pages/Blog/SingleBlog";
 import Contact from "../Pages/Contact/Contact";
+import Dashboard from "../Pages/Dashboard/Dashboard/Dashboard";
+import Profile from "../Pages/Dashboard/Profile/Profile/Profile";
+import UpdateProfile from "../Pages/Dashboard/Profile/UpdateProfile/UpdateProfile";
+import TestDash from "../Pages/Dashboard/Test/TestDash";
 import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 import Phones from "../Pages/Phones/Phones/Phones";
 
@@ -49,7 +54,7 @@ export const routes = createBrowserRouter([
     ],
   },
   {
-    path: "/category",
+    path: "category",
     element: <PhoneLayout />,
     errorElement: <ErrorPage />,
     children: [
@@ -58,12 +63,39 @@ export const routes = createBrowserRouter([
         element: <Phones />,
       },
       {
-        path: "category",
+        path: "/category",
         element: <Phones />,
       },
       {
         path: "/category/:id",
         element: <Phones />,
+      },
+    ],
+  },
+  {
+    path: "/dashboard",
+    element: <DashboardLayout />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        index: true,
+        element: <Dashboard />,
+      },
+      {
+        path: "/dashboard",
+        element: <Dashboard />,
+      },
+      {
+        path: "/dashboard/profile",
+        element: <Profile />,
+      },
+      {
+        path: "/dashboard/update-profile",
+        element: <UpdateProfile />,
+      },
+      {
+        path: "/dashboard/test",
+        element: <TestDash />,
       },
     ],
   },
