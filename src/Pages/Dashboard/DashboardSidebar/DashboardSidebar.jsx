@@ -18,14 +18,14 @@ const DashboardSidebar = () => {
   const user = {
     name: "John Doe",
     email: "",
-    role: "admin",
+    role: "seller",
   };
 
   const adminMenu = (
     <>
       <li>
         <NavLink
-          to="/dashboard"
+          to="/dashboard/"
           className={({ isActive }) =>
             isActive
               ? "relative flex flex-row items-center h-11 focus:outline-none bg-blue-800 dark:bg-gray-600 text-white-800 border-l-4 border-transparent border-blue-400 dark:border-gray-800 pr-6"
