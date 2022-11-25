@@ -15,6 +15,9 @@ import Sellers from "../Pages/Dashboard/Admin/Sellers/Sellers";
 import VerificationRequest from "../Pages/Dashboard/Admin/VerificationRequest/VerificationRequest";
 import Profile from "../Pages/Dashboard/Profile/Profile/Profile";
 import UpdateProfile from "../Pages/Dashboard/Profile/UpdateProfile/UpdateProfile";
+import AddProduct from "../Pages/Dashboard/Seller/AddProduct/AddProduct";
+import MyBuyers from "../Pages/Dashboard/Seller/MyBuyers/MyBuyers";
+import MyProducts from "../Pages/Dashboard/Seller/MyProducts/MyProducts";
 import TestDash from "../Pages/Dashboard/Test/TestDash";
 import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 import Phones from "../Pages/Phones/Phones/Phones";
@@ -117,6 +120,18 @@ export const routes = createBrowserRouter([
       {
         path: "/dashboard/verification-request",
         element: <VerificationRequest />,
+      },
+      {
+        path: "/dashboard/my-products",
+        element: <MyProducts />,
+      },
+      {
+        path: "/dashboard/add-product",
+        element: <AddProduct />,
+      },
+      {
+        path: "/dashboard/my-buyers",
+        element: <MyBuyers />,
       },
       {
         path: "/dashboard/test",
