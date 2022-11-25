@@ -3,7 +3,7 @@ import CategoryCard from "./CategoryCard";
 
 const Category = () => {
   return (
-    <div className="py-20 bg-gray-50 dark:bg-gray-800">
+    <div className="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-5 py-20">
       <div className="max-w-7xl mx-auto">
         <h2 className="text-3xl font-bold text-blue-700 dark:text-white/90 text-center">
           Popular Categories

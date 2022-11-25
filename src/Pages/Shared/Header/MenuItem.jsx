@@ -12,6 +12,10 @@ const MenuItem = () => {
       path: "/",
     },
     {
+      title: "Phones",
+      path: "/phones",
+    },
+    {
       title: "About",
       path: "/about",
     },
