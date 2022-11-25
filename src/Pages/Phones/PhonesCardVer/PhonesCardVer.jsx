@@ -11,7 +11,7 @@ import { GoLocation } from "react-icons/go";
 import { FcApproval } from "react-icons/fc";
 import toast from "react-hot-toast";
 
-const PhonesCardHor = () => {
+const PhonesCardVer = () => {
   const [wishlistLoading, setWishlistLoading] = useState(false);
   const [bookLoading, setBookLoading] = useState(false);
 
@@ -75,22 +75,20 @@ const PhonesCardHor = () => {
   // Date
 
   return (
-    <div className="w-full bg-white rounded-md shadow dark:bg-gray-900 drop-shadow-md dark:text-gray-100 p-3 flex flex-col md:flex-row hover:drop-shadow-none duration-300">
-      <figure className="w-full md:w-[200px] h-[200px] md:h-[150px] rounded-md">
-        <img
-          src={image}
-          alt={name}
-          className="object-cover object-center w-full h-full dark:bg-gray-500"
-        />
-      </figure>
+    <div className="max-w-[300px] w-full bg-white rounded-md shadow dark:bg-gray-900 drop-shadow-md dark:text-gray-100 p-3 flex flex-col justify-between text-center hover:-translate-y-1 duration-300 relative">
+      <div>
+        <figure>
+          <img
+            src={image}
+            alt={name}
+            className="object-cover object-center w-full rounded-lg h-48 dark:bg-gray-500"
+          />
+        </figure>
 
-      <div className="flex flex-col md:flex-row items-center justify-between w-full px-5 gap-5 py-3 md:py-1">
-        <div className="flex-1">
-          <div className="flex items-center justify-between flex-wrap">
-            <div className="flex flex-col">
-              <h2 className="text-xl font-bold tracking-wide text-ellipsis">
-                {name}
-              </h2>
+        <div className="pt-2">
+          <div>
+            <div className="flex flex-col items-center">
+              <h2 className="text-lg font-semibold text-ellipsis">{name}</h2>
               <div className="flex items-center gap-2">
                 <p className="text-sm font-medium text-gray-600 dark:text-gray-300">
                   Condition:
@@ -108,31 +106,40 @@ const PhonesCardHor = () => {
                 </Badge>
               </div>
             </div>
+          </div>
 
-            <div>
-              <div className="flex items-center text-blue-700 text-md font-medium">
-                <span className="text-gray-600 dark:text-gray-300">
-                  Resell Price:
+          <div className="flex flex-col justify-center text-center py-2 gap-1">
+            <div className="flex justify-evenly items-center">
+              <div className="flex items-center text-blue-700 text-md">
+                <span className="text-gray-800 dark:text-gray-300">
+                  Resell:
                 </span>
                 <TbCurrencyTaka className="w-5 h-5" /> {resale_price}
               </div>
 
-              <div className="flex items-center text-blue-700 text-md font-medium">
-                <span className="text-gray-600 dark:text-gray-300">
-                  Original Price:
+              <div className="flex items-center text-blue-700 text-md">
+                <span className="text-gray-800 dark:text-gray-300">
+                  Original:
                 </span>
                 <TbCurrencyTaka className="w-5 h-5" /> {original_price}
               </div>
             </div>
-          </div>
 
-          <div className="flex flex-wrap items-center justify-between my-2">
-            <div>
+            <div className="flex flex-wrap justify-evenly items-center text-gray-500 text-sm dark:text-gray-400">
+              <div className="flex items-center gap-1 justify-center w-fit">
+                <GoLocation className="text-blue-700 stroke-1" />
+                <span>{location}</span>
+              </div>
+              <div className="flex items-center justify-center gap-1 w-fit">
+                <AiOutlineClockCircle className="text-blue-700 stroke-1" />
+                <span>{postDate}</span>
+              </div>
+            </div>
+
+            <div className="flex justify-evenly items-center gap-1 dark:text-gray-300">
               <div className="flex items-center justify-center gap-1 w-fit">
                 <AiOutlineUser className="text-blue-700" />
-                <span>
-                  <span className="font-semibold">Seller:</span> {seller_name}
-                </span>
+                <span>{seller_name}</span>
                 {seller_isVerified && (
                   <span title="Verified Seller">
                     <FcApproval />
@@ -143,70 +150,52 @@ const PhonesCardHor = () => {
               <div className="flex items-center gap-1 justify-center w-fit">
                 <AiOutlineCalendar className="text-blue-700" />
                 <span>
-                  <span className="font-semibold">Used:</span> {years_used}{" "}
-                  {years_used > 1 ? "years" : "year"}
+                  {years_used} {years_used > 1 ? "years used" : "year used"}
                 </span>
               </div>
             </div>
-
-            <div>
-              <div className="flex items-center gap-1 justify-center w-fit">
-                <GoLocation className="text-blue-700" />
-                <span>{location}</span>
-              </div>
-
-              <div className="flex items-center justify-center gap-1 w-fit">
-                <AiOutlineClockCircle className="text-blue-700" />
-                <span>{postDate}</span>
-              </div>
-            </div>
           </div>
-
-          <p className="text-gray-500 dark:text-gray-400 text-xs text-justify">
-            <span className="font-medium">Details:</span> {description}
-          </p>
         </div>
+        <p className="text-gray-500 dark:text-gray-400 text-sm">
+          {description.slice(0, 100) + "..."}
+        </p>
+      </div>
 
-        <div className="flex md:flex-col justify-center-center gap-2">
-          <Button
-            onClick={() => handleBooking(_id)}
-            type="button"
-            size="sm"
-            className="w-1full"
-            title="Book Now"
-            disabled={bookLoading}
-          >
-            <div className="flex items-center gap-2 ">
-              {bookLoading ? (
-                <Spinner size="sm" light={true} />
-              ) : (
-                <HiOutlineBookmark className="h-5 w-5" />
-              )}
-              <span>Book Now</span>
-            </div>
-          </Button>
+      <div className="flex flex-wrap items-center gap-2 px-3 py-2">
+        <Button
+          onClick={() => handleBooking(_id)}
+          type="button"
+          size="sm"
+          title="View Details"
+          className="flex-1"
+        >
+          <div className="flex items-center gap-2 ">
+            {bookLoading ? (
+              <Spinner size="sm" light={true} />
+            ) : (
+              <HiOutlineBookmark className="h-5 w-5" />
+            )}
+            <span>Book Now</span>
+          </div>
+        </Button>
 
-          <Button
-            onClick={() => handleAddToWishlist(_id)}
-            color="warning"
-            size="sm"
-            title="Add to Wishlist"
-            className="w-1full"
-            disabled={wishlistLoading}
-          >
-            <div className="flex items-center gap-2 ">
-              {wishlistLoading ? (
-                <Spinner size="sm" light={true} />
-              ) : (
-                <HiOutlineHeart className="h-5 w-5" />
-              )}
-              <span>Wishlist</span>
-            </div>
-          </Button>
-        </div>
+        <Button
+          color="warning"
+          size="sm"
+          title="Add to Wishlist"
+          className="w-fit"
+          onClick={() => handleAddToWishlist(_id)}
+          disabled={wishlistLoading}
+        >
+          {wishlistLoading ? (
+            <Spinner size="sm" light={true} />
+          ) : (
+            <HiOutlineHeart className="h-5 w-5" />
+          )}
+        </Button>
       </div>
     </div>
   );
 };
 
-export default PhonesCardHor;
+export default PhonesCardVer;

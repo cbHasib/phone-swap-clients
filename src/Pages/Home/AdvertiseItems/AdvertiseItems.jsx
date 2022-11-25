@@ -1,5 +1,5 @@
 import React from "react";
-import ProductCard from "../../Shared/Products/ProductCard/ProductCard";
+import PhonesCardVer from "../../Phones/PhonesCardVer/PhonesCardVer";
 
 const AdvertiseItems = () => {
   return (
@@ -10,10 +10,7 @@ const AdvertiseItems = () => {
         </h2>
 
         <div className="py-10 flex flex-wrap gap-6 justify-center items-center">
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
+          <PhonesCardVer />
         </div>
       </div>
     </div>
