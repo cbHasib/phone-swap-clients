@@ -136,7 +136,7 @@ const Buyers = () => {
                       <Button
                         onClick={() => handleMakeAdmin(buyer?._id)}
                         size="xs"
-                        color="failure"
+                        color="warning"
                         title={
                           buyer?.role === "admin"
                             ? "Already an Admin"

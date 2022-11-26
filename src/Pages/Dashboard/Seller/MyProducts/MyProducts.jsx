@@ -81,19 +81,21 @@ const MyProducts = () => {
                       <HiTrash className="w-5 h-5" />
                     </button>
 
-                    <Button
-                      size="xs"
-                      color="light"
-                      disabled={product.status === "Sold"}
-                      title={
-                        product.status === "Sold"
-                          ? "Promote This Ads"
-                          : "Promoted"
-                      }
-                    >
-                      <HiOutlineTrendingUp className="w-5 h-5 mr-2" />
-                      {product.status === "Sold" ? "Sold" : "Advertise"}
-                    </Button>
+                    {!product.promoted && product.status === "Available" && (
+                      <Button
+                        size="xs"
+                        color="light"
+                        disabled={product.status === "Sold"}
+                        title={
+                          product.status === "Sold"
+                            ? "Product is Sold"
+                            : "Promote This Ads"
+                        }
+                      >
+                        <HiOutlineTrendingUp className="w-5 h-5 mr-2" />
+                        {product.status === "Sold" ? "Sold" : "Advertise"}
+                      </Button>
+                    )}
                   </div>
                 </td>
               </tr>

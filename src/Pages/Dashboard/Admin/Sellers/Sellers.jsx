@@ -1,7 +1,7 @@
 import { Button } from "flowbite-react";
 import React from "react";
 import toast from "react-hot-toast";
-import { HiPencil, HiTrash } from "react-icons/hi";
+import { HiTrash } from "react-icons/hi";
 
 const Sellers = () => {
   const sellers = [
@@ -66,10 +66,6 @@ const Sellers = () => {
     toast.success(`Admin ${id}`);
   };
 
-  const handleUpdateSeller = (id) => {
-    toast.success(`Updated ${id}`);
-  };
-
   return (
     <div className="px-5">
       <h4 className="mb-4 text-2xl font-semibold text-gray-600 dark:text-gray-300">
@@ -132,14 +128,6 @@ const Sellers = () => {
                   <td className="px-4 py-3">
                     <div className="flex items-center space-x-3 text-sm">
                       <button
-                        onClick={() => handleUpdateSeller(seller?._id)}
-                        className="flex items-center justify-between py-2 text-sm font-medium leading-5 text-blue-700 rounded-lg dark:text-gray-400 dark:hover:text-white hover:text-blue-900 focus:outline-none focus:shadow-outline-gray"
-                        aria-label="Edit"
-                        title="Update Seller Info"
-                      >
-                        <HiPencil className="w-5 h-5" />
-                      </button>
-                      <button
                         className="flex items-center justify-between py-2 text-sm font-medium leading-5 text-blue-700 rounded-lg dark:text-gray-400 dark:hover:text-white hover:text-blue-900 focus:outline-none focus:shadow-outline-gray"
                         aria-label="Delete"
                         title="Delete This Seller"
@@ -180,88 +168,6 @@ const Sellers = () => {
               ))}
             </tbody>
           </table>
-        </div>
-        <div className="grid px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t dark:border-gray-700 bg-white sm:grid-cols-9 dark:text-gray-400  pb-10 dark:bg-gray-900">
-          <span className="flex items-center col-span-3">
-            Showing 21-30 of 100
-          </span>
-          <span className="col-span-2"></span>
-          {/* <!-- Pagination --> */}
-          <span className="flex col-span-4 mt-2 sm:mt-auto sm:justify-end">
-            <nav aria-label="Table navigation">
-              <ul className="inline-flex items-center">
-                <li>
-                  <button
-                    className="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple"
-                    aria-label="Previous"
-                  >
-                    <svg
-                      className="w-4 h-4 fill-current"
-                      aria-hidden="true"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                        clipRule="evenodd"
-                        fillRule="evenodd"
-                      ></path>
-                    </svg>
-                  </button>
-                </li>
-                <li>
-                  <button className="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
-                    1
-                  </button>
-                </li>
-                <li>
-                  <button className="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
-                    2
-                  </button>
-                </li>
-                <li>
-                  <button className="px-3 py-1 text-white transition-colors duration-150 bg-blue-700 border border-r-0 border-blue-700 rounded-md focus:outline-none focus:shadow-outline-purple">
-                    3
-                  </button>
-                </li>
-                <li>
-                  <button className="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
-                    4
-                  </button>
-                </li>
-                <li>
-                  <span className="px-3 py-1">...</span>
-                </li>
-                <li>
-                  <button className="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
-                    8
-                  </button>
-                </li>
-                <li>
-                  <button className="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
-                    9
-                  </button>
-                </li>
-                <li>
-                  <button
-                    className="px-3 py-1 rounded-md rounded-r-lg focus:outline-none focus:shadow-outline-purple"
-                    aria-label="Next"
-                  >
-                    <svg
-                      className="w-4 h-4 fill-current"
-                      aria-hidden="true"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                        clipRule="evenodd"
-                        fillRule="evenodd"
-                      ></path>
-                    </svg>
-                  </button>
-                </li>
-              </ul>
-            </nav>
-          </span>
         </div>
       </div>
     </div>
