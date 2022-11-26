@@ -1,13 +1,6 @@
 import { updateProfile } from "firebase/auth";
-import React, { useContext } from "react";
-import {
-  FaCamera,
-  FaEnvelope,
-  FaGithub,
-  FaGoogle,
-  FaUnlock,
-  FaUser,
-} from "react-icons/fa";
+import React, { useContext, useState } from "react";
+import { FaGithub, FaGoogle } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import useScrollToTop from "../../../hooks/useScrollToTop";
@@ -15,10 +8,25 @@ import useTitle from "../../../hooks/useTitle";
 import { AuthContext } from "../../../Contexts/UserContext";
 import { showAuthErrorToast } from "../../../customFunction/showAuthErrorToast";
 import { setJwtToken } from "../../../customFunction/setJwtToken";
+import { useForm } from "react-hook-form";
+import {
+  HiLockClosed,
+  HiMail,
+  HiOutlineCloudUpload,
+  HiPhone,
+  HiUser,
+} from "react-icons/hi";
+import { Button, Label, Radio, Spinner, TextInput } from "flowbite-react";
 
 const Register = () => {
   useScrollToTop();
   useTitle("Register");
+
+  const [userPhoto, setUserPhoto] = useState("");
+  const [uploadFiles, setUploadFiles] = useState([]);
+  const [submitLoading, setSubmitLoading] = useState(false);
+
+  const { register: userData, handleSubmit, setValue } = useForm();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -27,7 +35,54 @@ const Register = () => {
   const { loginWithGoogle, loginWithGitHub, register, setLoading } =
     useContext(AuthContext);
 
-  const handleRegister = (e) => {
+  /* 
+    _id,
+name,
+email,
+phone,
+role,
+isVerified,
+image,
+joinDate
+    */
+
+  const handleRegister = async (data) => {
+    setSubmitLoading(true);
+    console.log(uploadFiles);
+    if (uploadFiles.length > 0) {
+      const formData = new FormData();
+      formData.append("image", uploadFiles[0]);
+
+      const response = await fetch(
+        `https://api.imgbb.com/1/upload?key=${process.env.REACT_APP_IMGBB_KEY}&name=${data.name}`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      const imgData = await response.json();
+
+      if (imgData.success) {
+        toast.success("Image uploaded successfully");
+        data.image = imgData.data.display_url;
+      } else {
+        toast.error("Image upload failed");
+        data.image = "https://i.ibb.co/FwzH053/default-User-Avatar.jpg";
+      }
+    } else {
+      data.image = "https://i.ibb.co/FwzH053/default-User-Avatar.jpg";
+      toast.success("Image not found. Default image set");
+    }
+
+    data.isVerified = false;
+    const dateNow = new Date().toDateString().split(" ").slice(1, 4);
+    data.joinDate = dateNow[0] + " " + dateNow[1] + ", " + dateNow[2];
+    data.wishlist = [];
+    data.image || (data.image = "");
+    console.log(data);
+    setSubmitLoading(false);
+    /*  
     e.preventDefault();
     const name = e.target.name.value;
     const email = e.target.email.value;
@@ -62,7 +117,7 @@ const Register = () => {
       .catch((error) => {
         showAuthErrorToast(error);
         setLoading(false);
-      });
+      }); */
   };
 
   const handleGoogleLogin = () => {
@@ -121,73 +176,142 @@ const Register = () => {
         </div>
 
         <div className="mt-8">
-          <form onSubmit={handleRegister}>
-            <div className="flex flex-col mb-2">
-              <div className="flex relative ">
-                <span className="rounded-l-md inline-flex  items-center px-3 border-t bg-white border-l border-b  border-gray-300 text-gray-500 shadow-sm text-sm">
-                  <FaUser />
-                </span>
-                <input
-                  type="text"
-                  id="name"
-                  className=" rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
-                  placeholder="Your Name"
-                />
-              </div>
+          <form onSubmit={handleSubmit(handleRegister)}>
+            <div className="mb-2 block">
+              <TextInput
+                id="name"
+                type="text"
+                placeholder="Your Name"
+                required={true}
+                icon={HiUser}
+                {...userData("name", { required: true })}
+              />
             </div>
 
-            <div className="flex flex-col mb-2">
-              <div className="flex relative ">
-                <span className="rounded-l-md inline-flex  items-center px-3 border-t bg-white border-l border-b  border-gray-300 text-gray-500 shadow-sm text-sm">
-                  <FaEnvelope />
-                </span>
-                <input
-                  type="email"
-                  id="email"
-                  className=" rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
-                  placeholder="Your Email"
-                />
-              </div>
+            <div className="mb-2 block">
+              <TextInput
+                id="email"
+                type="email"
+                placeholder="Your Email"
+                required={true}
+                icon={HiMail}
+                {...userData("email", { required: true })}
+              />
             </div>
 
-            <div className="flex flex-col mb-2">
-              <div className="flex relative ">
-                <span className="rounded-l-md inline-flex  items-center px-3 border-t bg-white border-l border-b  border-gray-300 text-gray-500 shadow-sm text-sm">
-                  <FaUnlock />
-                </span>
-                <input
-                  type="password"
-                  id="password"
-                  className=" rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
-                  placeholder="Your Password"
-                />
-              </div>
+            <div className="mb-2 block">
+              <TextInput
+                id="phone"
+                type="tel"
+                placeholder="Your Phone"
+                required={true}
+                icon={HiPhone}
+                {...userData("phone", { required: true })}
+              />
             </div>
 
-            <div className="flex flex-col mb-6">
-              <div className="flex relative ">
-                <span className="rounded-l-md inline-flex  items-center px-3 border-t bg-white border-l border-b  border-gray-300 text-gray-500 shadow-sm text-sm">
-                  <FaCamera />
-                </span>
-                <input
-                  type="url"
-                  id="photoURL"
-                  className=" rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
-                  placeholder="Your Photo URL"
+            <div className="mb-2 block">
+              <TextInput
+                id="password"
+                type="password"
+                placeholder="Your Password"
+                required={true}
+                icon={HiLockClosed}
+                {...userData("password", { required: true })}
+              />
+            </div>
+
+            <fieldset className="flex gap-4 mb-4" id="radio">
+              <legend className="dark:text-gray-300 font-semibold mb-1">
+                Register as:
+              </legend>
+              <div className="flex items-center gap-2">
+                <Radio
+                  id="buyer"
+                  name="role"
+                  value="buyer"
+                  {...userData("role", { required: true })}
+                  defaultChecked={true}
                 />
+                <Label htmlFor="buyer">Buyer</Label>
+              </div>
+              <div className="flex items-center gap-2">
+                <Radio
+                  id="seller"
+                  name="role"
+                  value="seller"
+                  {...userData("role", { required: true })}
+                />
+                <Label htmlFor="seller">Seller</Label>
+              </div>
+            </fieldset>
+
+            <div className="flex flex-col mb-6 overflow-hidden">
+              <div className="flex items-center justify-center w-full relative">
+                <label
+                  htmlFor="dropzone-file"
+                  className={`flex flex-col items-center justify-center w-full h-44 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600`}
+                >
+                  {userPhoto && (
+                    <img
+                      src={userPhoto}
+                      alt=""
+                      className="absolute w-full h-full rounded-lg object-cover opacity-50"
+                      aria-disabled
+                    />
+                  )}
+
+                  <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                    <HiOutlineCloudUpload className="w-10 h-10 mb-3 text-gray-400" />
+                    <p className="mb-2 text-sm text-gray-500 dark:text-gray-400 text-center">
+                      <span className="font-semibold">
+                        Click to upload a Profile Photo
+                      </span>{" "}
+                      or drag and drop
+                    </p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                      Only Image file is allowed
+                    </p>
+                  </div>
+                  <input
+                    id="dropzone-file"
+                    type="file"
+                    accept="image/*"
+                    className="opacity-0 absolute z-10 h-full w-full cursor-pointer"
+                    // {...userData("image")}
+                    onChange={(e) => {
+                      const file = e.target.files[0];
+
+                      if (file) {
+                        if (file.type.includes("image")) {
+                          setUploadFiles(e.target.files);
+                          console.log(file);
+                          const url = URL.createObjectURL(file);
+                          setUserPhoto(url);
+                        } else {
+                          toast.error("Only Image file is allowed");
+                        }
+                      } else {
+                        setUserPhoto(null);
+                        setUploadFiles([]);
+                      }
+                    }}
+                  />
+                </label>
               </div>
             </div>
 
             <div className="flex w-full">
-              <button
-                type="submit"
-                className="py-2 px-4  bg-blue-600 hover:bg-blue-700 focus:ring-blue-500 focus:ring-offset-blue-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg "
-              >
-                Register
-              </button>
+              <Button disabled={submitLoading} type="submit" className="w-full">
+                <div className={`mr-3 ${submitLoading || "hidden"}`}>
+                  <Spinner size="sm" light={true} />
+                </div>
+                {submitLoading ? "Loading..." : "Register"}
+              </Button>
             </div>
           </form>
         </div>
+
         <div className="flex items-center justify-center mt-6">
           <Link
             to="/login"
