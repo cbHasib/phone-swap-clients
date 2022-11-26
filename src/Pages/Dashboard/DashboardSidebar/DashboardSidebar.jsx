@@ -18,7 +18,7 @@ const DashboardSidebar = () => {
   const user = {
     name: "John Doe",
     email: "",
-    role: "buyer",
+    role: "seller",
   };
 
   const adminMenu = (
