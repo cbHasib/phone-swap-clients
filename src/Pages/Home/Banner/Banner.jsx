@@ -22,9 +22,9 @@ const sliders = [
   {
     id: 1,
     img: slider1,
-    title: "Resell Your Old Phone",
+    title: "Resale Your Old Phone",
     subtitle:
-      "PhoneSwap is the best place to Resell your old phone. We make it easy to sell your old phone and get cash for it. We buy all types of phones, including iPhones, Samsung Galaxy, Google Pixel, and more.",
+      "PhoneSwap is the best place to Resale your old phone. We make it easy to sell your old phone and get cash for it. We buy all types of phones, including iPhones, Samsung Galaxy, Google Pixel, and more.",
   },
   {
     id: 2,

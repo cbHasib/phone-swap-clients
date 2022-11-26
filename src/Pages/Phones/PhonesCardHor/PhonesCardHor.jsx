@@ -112,7 +112,7 @@ const PhonesCardHor = () => {
             <div>
               <div className="flex items-center text-blue-700 text-md font-medium">
                 <span className="text-gray-600 dark:text-gray-300">
-                  Resell Price:
+                  Resale Price:
                 </span>
                 <TbCurrencyTaka className="w-5 h-5" /> {resale_price}
               </div>

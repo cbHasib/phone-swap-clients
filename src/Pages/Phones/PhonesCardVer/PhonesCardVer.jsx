@@ -112,7 +112,7 @@ const PhonesCardVer = () => {
             <div className="flex justify-evenly items-center">
               <div className="flex items-center text-blue-700 text-md">
                 <span className="text-gray-800 dark:text-gray-300">
-                  Resell:
+                  Resale:
                 </span>
                 <TbCurrencyTaka className="w-5 h-5" /> {resale_price}
               </div>
