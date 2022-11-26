@@ -31,7 +31,7 @@ const AddProduct = () => {
     data.categoryId = 1;
     data.promoted = false;
 
-    data.sold = false;
+    data.status = "Available";
 
     console.log(data);
     toast.success("Product Added Successfully");
