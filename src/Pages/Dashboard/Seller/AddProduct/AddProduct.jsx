@@ -1,10 +1,17 @@
-import { Button, Label, Select, Textarea, TextInput } from "flowbite-react";
+import {
+  Button,
+  Label,
+  Select,
+  Spinner,
+  Textarea,
+  TextInput,
+} from "flowbite-react";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import useScrollToTop from "../../../../hooks/useScrollToTop";
 import useTitle from "../../../../hooks/useTitle";
-import { HiOutlineCloudUpload } from "react-icons/hi";
+import { HiOutlineCloudUpload, HiOutlinePlus } from "react-icons/hi";
 
 const AddProduct = () => {
   const [productPhoto, setProductPhoto] = useState("");
@@ -28,7 +35,10 @@ const AddProduct = () => {
 
     console.log(data);
     toast.success("Product Added Successfully");
-    setSubmitLoad(false);
+
+    setTimeout(() => {
+      setSubmitLoad(false);
+    }, 5000);
 
     /* 
     fetch(`${process.env.REACT_APP_SERVER_URL}/add-new-service`, {
@@ -98,8 +108,8 @@ const AddProduct = () => {
           onSubmit={handleSubmit(handleAddProduct)}
           className="flex flex-col gap-4 p-10 bg-white dark:bg-gray-800 rounded-lg shadow-lg"
         >
-          <div className="grid grid-cols-1 lg:grid-cols-6 gap-5">
-            <div className="lg:col-span-4">
+          <div className="grid grid-cols-1 gap-5">
+            <div>
               <div className="mb-2 block w-full">
                 <Label htmlFor="product_name" value="Product Name" />
               </div>
@@ -112,6 +122,9 @@ const AddProduct = () => {
                 {...register("product_name")}
               />
             </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
             <div>
               <div className="mb-2 block">
                 <Label htmlFor="original_price" value="Original Price" />
@@ -122,6 +135,7 @@ const AddProduct = () => {
                 addon="৳"
                 shadow={true}
                 required
+                placeholder="30000"
                 min={0}
                 {...register("original_price", {
                   required: true,
@@ -138,6 +152,7 @@ const AddProduct = () => {
                 id="resale_price"
                 type="number"
                 addon="৳"
+                placeholder="25000"
                 min={0}
                 shadow={true}
                 required
@@ -145,6 +160,22 @@ const AddProduct = () => {
                   required: true,
                   min: 0,
                   valueAsNumber: true,
+                })}
+              />
+            </div>
+
+            <div>
+              <div className="mb-2 block">
+                <Label htmlFor="contact_number" value="Your Phone Number" />
+              </div>
+              <TextInput
+                id="contact_number"
+                type="tel"
+                shadow={true}
+                required
+                placeholder="01XXXXXXXXX"
+                {...register("contact_number", {
+                  required: true,
                 })}
               />
             </div>
@@ -166,77 +197,8 @@ const AddProduct = () => {
                 </option>
                 <option value="Excellent">Excellent</option>
                 <option value="Good">Good</option>
-                <option value="Poor">Like New</option>
+                <option value="Poor">Poor</option>
               </Select>
-            </div>
-
-            <div>
-              <div className="mb-2 block">
-                <Label htmlFor="location" value="Your Location" />
-              </div>
-              <Select
-                id="location"
-                required={true}
-                shadow={true}
-                {...register("location")}
-              >
-                <option disabled defaultChecked value="">
-                  Select Location
-                </option>
-                {sellerLocation.map((location) => (
-                  <option key={location.value} value={location.value}>
-                    {location.label}
-                  </option>
-                ))}
-              </Select>
-            </div>
-
-            <div>
-              <div className="mb-2 block">
-                <Label htmlFor="years_used" value="Used Year" />
-              </div>
-              <Select
-                id="years_used"
-                required={true}
-                shadow={true}
-                {...register("years_used", {
-                  required: true,
-                  min: 0,
-                  valueAsNumber: true,
-                })}
-              >
-                <option disabled defaultChecked value="">
-                  Select Years
-                </option>
-
-                <option value="1">1 year</option>
-                <option value="2">2 year</option>
-                <option value="3">3 year</option>
-                <option value="4">4 year</option>
-                <option value="5">5 year</option>
-                <option value="6">6 year</option>
-                <option value="7">7 year</option>
-                <option value="8">8 year</option>
-                <option value="9">9 year</option>
-                <option value="10">10 year</option>
-              </Select>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-            <div>
-              <div className="mb-2 block">
-                <Label htmlFor="contact_number" value="Your Phone Number" />
-              </div>
-              <TextInput
-                id="contact_number"
-                type="tel"
-                shadow={true}
-                required
-                {...register("contact_number", {
-                  required: true,
-                })}
-              />
             </div>
 
             <div>
@@ -294,12 +256,12 @@ const AddProduct = () => {
 
           <div>
             <div className="mb-2 block">
-              <Label htmlFor="description" value="Service Description" />
+              <Label htmlFor="description" value="Product Description" />
             </div>
             <Textarea
               id="description"
               type="text"
-              placeholder="Write a description about your product"
+              placeholder="Write a short description about your product"
               required={true}
               rows={3}
             />
@@ -359,7 +321,14 @@ const AddProduct = () => {
             </div>
           </div>
 
-          <Button type="submit">Add Service</Button>
+          <Button type="submit" disabled={submitLoad}>
+            {submitLoad ? (
+              <Spinner className="w-5 h-5 mr-2" />
+            ) : (
+              <HiOutlinePlus className="w-5 h-5 mr-2" />
+            )}
+            {submitLoad ? "Adding Product..." : "Add Product"}
+          </Button>
         </form>
       </div>
     </>
