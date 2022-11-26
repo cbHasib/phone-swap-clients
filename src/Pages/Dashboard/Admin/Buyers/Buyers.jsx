@@ -1,7 +1,7 @@
 import { Button } from "flowbite-react";
 import React from "react";
 import toast from "react-hot-toast";
-import { HiPencil, HiTrash } from "react-icons/hi";
+import { HiTrash } from "react-icons/hi";
 
 const Buyers = () => {
   const buyers = [
@@ -62,10 +62,6 @@ const Buyers = () => {
     toast.success(`Admin ${id}`);
   };
 
-  const handleUpdateBuyer = (id) => {
-    toast.success(`Updated ${id}`);
-  };
-
   return (
     <div className="px-5">
       <h4 className="mb-4 text-2xl font-semibold text-gray-600 dark:text-gray-300">
@@ -116,14 +112,6 @@ const Buyers = () => {
                   <td className="px-4 py-3 text-sm">{buyer?.joinDate}</td>
                   <td className="px-4 py-3">
                     <div className="flex items-center space-x-3 text-sm">
-                      <button
-                        onClick={() => handleUpdateBuyer(buyer?._id)}
-                        className="flex items-center justify-between py-2 text-sm font-medium leading-5 text-blue-700 rounded-lg dark:text-gray-400 dark:hover:text-white hover:text-blue-900 focus:outline-none focus:shadow-outline-gray"
-                        aria-label="Edit"
-                        title="Update Buyer Info"
-                      >
-                        <HiPencil className="w-5 h-5" />
-                      </button>
                       <button
                         className="flex items-center justify-between py-2 text-sm font-medium leading-5 text-blue-700 rounded-lg dark:text-gray-400 dark:hover:text-white hover:text-blue-900 focus:outline-none focus:shadow-outline-gray"
                         aria-label="Delete"

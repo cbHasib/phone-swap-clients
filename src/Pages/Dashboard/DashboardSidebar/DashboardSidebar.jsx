@@ -76,9 +76,13 @@ const DashboardSidebar = () => {
       </li>
 
       <li>
-        <Link
+        <NavLink
           to="/dashboard/products"
-          className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6"
+          className={({ isActive }) =>
+            isActive
+              ? "relative flex flex-row items-center h-11 focus:outline-none bg-blue-800 dark:bg-gray-600 text-white-800 border-l-4 border-transparent border-blue-400 dark:border-gray-800 pr-6"
+              : "relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6"
+          }
         >
           <span className="inline-flex justify-center items-center ml-4">
             <HiOutlineViewGrid className="w-5 h-5" />
@@ -86,13 +90,17 @@ const DashboardSidebar = () => {
           <span className="ml-2 text-sm tracking-wide truncate">
             Manage Products
           </span>
-        </Link>
+        </NavLink>
       </li>
 
       <li>
-        <Link
+        <NavLink
           to="/dashboard/reported-products"
-          className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6"
+          className={({ isActive }) =>
+            isActive
+              ? "relative flex flex-row items-center h-11 focus:outline-none bg-blue-800 dark:bg-gray-600 text-white-800 border-l-4 border-transparent border-blue-400 dark:border-gray-800 pr-6"
+              : "relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6"
+          }
         >
           <span className="inline-flex justify-center items-center ml-4">
             <HiOutlineShieldExclamation className="w-5 h-5" />
@@ -100,13 +108,17 @@ const DashboardSidebar = () => {
           <span className="ml-2 text-sm tracking-wide truncate">
             Reported Product
           </span>
-        </Link>
+        </NavLink>
       </li>
 
       <li>
-        <Link
+        <NavLink
           to="/dashboard/verification-request"
-          className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6"
+          className={({ isActive }) =>
+            isActive
+              ? "relative flex flex-row items-center h-11 focus:outline-none bg-blue-800 dark:bg-gray-600 text-white-800 border-l-4 border-transparent border-blue-400 dark:border-gray-800 pr-6"
+              : "relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6"
+          }
         >
           <span className="inline-flex justify-center items-center ml-4">
             <HiOutlineBadgeCheck className="w-5 h-5" />
@@ -114,7 +126,7 @@ const DashboardSidebar = () => {
           <span className="ml-2 text-sm tracking-wide truncate">
             Verification Request
           </span>
-        </Link>
+        </NavLink>
       </li>
     </>
   );
