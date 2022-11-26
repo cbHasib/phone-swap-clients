@@ -1,6 +1,10 @@
 import { Badge, Button, Spinner } from "flowbite-react";
 import React, { useState } from "react";
-import { HiOutlineBookmark, HiOutlineHeart } from "react-icons/hi";
+import {
+  HiOutlineBan,
+  HiOutlineBookmark,
+  HiOutlineHeart,
+} from "react-icons/hi";
 import { TbCurrencyTaka } from "react-icons/tb";
 import {
   AiOutlineCalendar,
@@ -14,6 +18,7 @@ import toast from "react-hot-toast";
 const PhonesCardHor = () => {
   const [wishlistLoading, setWishlistLoading] = useState(false);
   const [bookLoading, setBookLoading] = useState(false);
+  const [reportLoading, setReportLoading] = useState(false);
 
   const handleBooking = () => {
     setBookLoading(true);
@@ -28,6 +33,14 @@ const PhonesCardHor = () => {
     setTimeout(() => {
       setWishlistLoading(false);
       toast.success("Added to Wishlist");
+    }, 2000);
+  };
+
+  const handleReport = () => {
+    setReportLoading(true);
+    setTimeout(() => {
+      setReportLoading(false);
+      toast.success("Reported");
     }, 2000);
   };
 
@@ -201,6 +214,23 @@ const PhonesCardHor = () => {
                 <HiOutlineHeart className="h-5 w-5" />
               )}
               <span>Wishlist</span>
+            </div>
+          </Button>
+          <Button
+            onClick={() => handleReport(_id)}
+            color="light"
+            size="sm"
+            title="Report to Admin"
+            className="w-1full"
+            disabled={reportLoading}
+          >
+            <div className="flex items-center gap-2 ">
+              {reportLoading ? (
+                <Spinner size="sm" light={true} />
+              ) : (
+                <HiOutlineBan className="h-5 w-5" />
+              )}
+              <span>Report</span>
             </div>
           </Button>
         </div>
