@@ -26,7 +26,7 @@ const Register = () => {
   const [uploadFiles, setUploadFiles] = useState([]);
   const [submitLoading, setSubmitLoading] = useState(false);
 
-  const { register: userData, handleSubmit, setValue } = useForm();
+  const { register: userData, handleSubmit, reset } = useForm();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -35,20 +35,15 @@ const Register = () => {
   const { loginWithGoogle, loginWithGitHub, register, setLoading } =
     useContext(AuthContext);
 
-  /* 
-    _id,
-name,
-email,
-phone,
-role,
-isVerified,
-image,
-joinDate
-    */
-
   const handleRegister = async (data) => {
+    const password = data.password;
+
+    if (password.length < 6) {
+      toast.error("Password must be at least 6 characters long");
+      return;
+    }
+
     setSubmitLoading(true);
-    console.log(uploadFiles);
     if (uploadFiles.length > 0) {
       const formData = new FormData();
       formData.append("image", uploadFiles[0]);
@@ -76,18 +71,56 @@ joinDate
     }
 
     data.isVerified = false;
+    // Date format: 12 Nov, 2022
     const dateNow = new Date().toDateString().split(" ").slice(1, 4);
     data.joinDate = dateNow[0] + " " + dateNow[1] + ", " + dateNow[2];
+    // Date End
     data.wishlist = [];
     data.image || (data.image = "");
-    console.log(data);
+
+    const { name, email, phone, role, image, joinDate, wishlist } = data;
+
+    try {
+      const { user } = await register(email, password);
+      await updateProfile(user, {
+        displayName: name,
+        photoURL: image,
+      });
+      const { uid } = user;
+      const newUser = {
+        _id: uid,
+        name,
+        email,
+        phone,
+        role,
+        isVerified: false,
+        image,
+        joinDate,
+        wishlist,
+      };
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/users`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newUser),
+      });
+      const data = await response.json();
+      if (data.success) {
+        toast.success(data.message);
+        // navigate(from);
+        setJwtToken(user.email);
+      } else {
+        toast.error(data.error);
+      }
+    } catch (error) {
+      showAuthErrorToast(error);
+    }
     setSubmitLoading(false);
-    /*  
-    e.preventDefault();
-    const name = e.target.name.value;
-    const email = e.target.email.value;
-    const password = e.target.password.value;
-    const photoURL = e.target.photoURL.value;
+    reset();
+  };
+
+  /*  
 
     if (password.length < 6) {
       toast.error("Password must be at least 6 characters long");
@@ -117,8 +150,9 @@ joinDate
       .catch((error) => {
         showAuthErrorToast(error);
         setLoading(false);
-      }); */
-  };
+      });
+      
+      */
 
   const handleGoogleLogin = () => {
     loginWithGoogle()
@@ -285,7 +319,6 @@ joinDate
                       if (file) {
                         if (file.type.includes("image")) {
                           setUploadFiles(e.target.files);
-                          console.log(file);
                           const url = URL.createObjectURL(file);
                           setUserPhoto(url);
                         } else {

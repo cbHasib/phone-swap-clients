@@ -1,58 +1,34 @@
 import { Button } from "flowbite-react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { HiTrash } from "react-icons/hi";
+import ErrorMessage from "../../../Shared/ErrorMessage/ErrorMessage";
+import LoadingSpinner from "../../../Shared/LoadingSpinner/LoadingSpinner";
 
 const Buyers = () => {
-  const buyers = [
-    {
-      name: "Hasib",
-      _id: "345454dfgfddgf",
-      role: "buyer",
-      isVerified: true,
-      email: "has@hs.d",
-      phone: "435345",
-      image:
-        "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&amp;q=80&amp;fm=jpg",
-      joinDate: "12 Nov, 2022",
-    },
+  const [load, setLoad] = useState(false);
+  const [errorMessages, setErrorMessages] = useState("");
+  const [buyers, setBuyers] = useState([]);
 
-    {
-      name: "Marzia",
-      _id: "345454dfgfddgf",
-      role: "admin",
-      isVerified: false,
-      email: "gcfdxf",
-      phone: "t768eqw5673",
-      image:
-        "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&amp;q=80&amp;fm=jpg",
-      joinDate: "12 Nov, 2022",
-    },
+  useEffect(() => {
+    setLoad(true);
+    const getBuyers = async () => {
+      const res = await fetch(
+        `${process.env.REACT_APP_API_URL}/users?role=buyer`
+      );
+      const data = await res.json();
 
-    {
-      name: "Jami",
-      _id: "345454dfgfddgf",
-      role: "buyer",
-      isVerified: false,
-      email: "jamk@ghd",
-      phone: "44444673",
-      image:
-        "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&amp;q=80&amp;fm=jpg",
-      joinDate: "12 Nov, 2022",
-    },
-
-    {
-      name: "Tamim",
-      _id: "345454dfgfddgf",
-      role: "buyer",
-      isVerified: true,
-      email: "gcfdxf",
-      phone: "t768eqw5673",
-      image:
-        "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&amp;q=80&amp;fm=jpg",
-      joinDate: "12 Nov, 2022",
-    },
-  ];
+      if (data.success) {
+        setBuyers(data.data);
+        setErrorMessages("");
+        setLoad(false);
+      } else {
+        setErrorMessages(data.errorMessages);
+        setLoad(false);
+      }
+    };
+    getBuyers();
+  }, []);
 
   const handleDeleteBuyer = (id) => {
     toast.success(`Deleted ${id}`);
@@ -61,6 +37,14 @@ const Buyers = () => {
   const handleMakeAdmin = (id) => {
     toast.success(`Admin ${id}`);
   };
+
+  if (load) {
+    return <LoadingSpinner />;
+  }
+
+  if (errorMessages) {
+    return <ErrorMessage error={errorMessages} />;
+  }
 
   return (
     <div className="px-5">

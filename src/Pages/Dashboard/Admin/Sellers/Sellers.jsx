@@ -1,70 +1,72 @@
 import { Button } from "flowbite-react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { HiTrash } from "react-icons/hi";
+import { setJwtToken } from "../../../../customFunction/setJwtToken";
+import ErrorMessage from "../../../Shared/ErrorMessage/ErrorMessage";
+import LoadingSpinner from "../../../Shared/LoadingSpinner/LoadingSpinner";
 
 const Sellers = () => {
-  const sellers = [
-    {
-      name: "Hasib",
-      _id: "345454dfgfddgf",
-      role: "seller",
-      isVerified: true,
-      email: "has@hs.d",
-      phone: "435345",
-      image:
-        "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&amp;q=80&amp;fm=jpg",
-      joinDate: "12 Nov, 2022",
-    },
+  const [load, setLoad] = useState(false);
+  const [errorMessages, setErrorMessages] = useState("");
+  const [sellers, setSellers] = useState([]);
 
-    {
-      name: "Marzia",
-      _id: "345454dfgfddgf",
-      role: "admin",
-      isVerified: false,
-      email: "gcfdxf",
-      phone: "t768eqw5673",
-      image:
-        "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&amp;q=80&amp;fm=jpg",
-      joinDate: "12 Nov, 2022",
-    },
+  useEffect(() => {
+    setLoad(true);
+    const getSellers = async () => {
+      const res = await fetch(
+        `${process.env.REACT_APP_API_URL}/users?role=seller`
+      );
+      const data = await res.json();
 
-    {
-      name: "Jami",
-      _id: "345454dfgfddgf",
-      role: "seller",
-      isVerified: false,
-      email: "jamk@ghd",
-      phone: "44444673",
-      image:
-        "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&amp;q=80&amp;fm=jpg",
-      joinDate: "12 Nov, 2022",
-    },
-
-    {
-      name: "Tamim",
-      _id: "345454dfgfddgf",
-      role: "seller",
-      isVerified: true,
-      email: "gcfdxf",
-      phone: "t768eqw5673",
-      image:
-        "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&amp;q=80&amp;fm=jpg",
-      joinDate: "12 Nov, 2022",
-    },
-  ];
+      if (data.success) {
+        setSellers(data.data);
+        setErrorMessages("");
+      } else {
+        setErrorMessages(data.error);
+      }
+      setLoad(false);
+    };
+    getSellers();
+  }, []);
 
   const handleDeleteSeller = (id) => {
     toast.success(`Deleted ${id}`);
+    setJwtToken("hasibul.pbn@gmail.com");
   };
 
   const handleSellerVerification = (id) => {
     toast.success(`Verified seller ${id}`);
   };
 
-  const handleMakeAdmin = (id) => {
+  const handleMakeAdmin = async (id) => {
     toast.success(`Admin ${id}`);
+
+    const res = await fetch(
+      `${process.env.REACT_APP_API_URL}/users/admin/${id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    const data = await res.json();
+    if (data.success) {
+      toast.success(data.message);
+    } else {
+      toast.error(data.error);
+    }
   };
+
+  if (load) {
+    return <LoadingSpinner />;
+  }
+
+  if (errorMessages) {
+    return <ErrorMessage error={errorMessages} />;
+  }
 
   return (
     <div className="px-5">

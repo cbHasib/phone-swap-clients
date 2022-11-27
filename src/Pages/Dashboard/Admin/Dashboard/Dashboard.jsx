@@ -1,12 +1,54 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   HiOutlineCube,
   HiOutlineShieldExclamation,
   HiOutlineShoppingCart,
   HiOutlineUserGroup,
 } from "react-icons/hi";
+import ErrorMessage from "../../../Shared/ErrorMessage/ErrorMessage";
+import LoadingSpinner from "../../../Shared/LoadingSpinner/LoadingSpinner";
 
 const Dashboard = () => {
+  const [load, setLoad] = useState(false);
+  const [errorMessages, setErrorMessages] = useState("");
+  const [counts, setCounts] = useState([]);
+
+  useEffect(() => {
+    setLoad(true);
+    const getCounts = async () => {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/dashboard`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        setCounts(data.data);
+        setErrorMessages("");
+        setLoad(false);
+      } else {
+        setErrorMessages(data.error);
+        setLoad(false);
+      }
+    };
+    getCounts();
+  }, []);
+
+  if (load) {
+    return <LoadingSpinner />;
+  }
+
+  console.log(errorMessages);
+
+  if (errorMessages) {
+    return <ErrorMessage error={errorMessages} />;
+  }
+
+  const { productCount, sellerCount, buyerCount } = counts; // totalUserCount is not used but available
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
       <div className="bg-blue-500 dark:bg-gray-900 shadow-lg rounded-md flex items-center justify-between p-3 border-b-4 border-blue-600 dark:border-gray-600 text-white font-medium group">
@@ -14,7 +56,7 @@ const Dashboard = () => {
           <HiOutlineCube className="stroke-current text-blue-800 dark:text-gray-800 transform transition-transform duration-500 ease-in-out w-8 h-8" />
         </div>
         <div className="text-right">
-          <p className="text-2xl">000</p>
+          <p className="text-2xl">{productCount}</p>
           <p>Products</p>
         </div>
       </div>
@@ -34,7 +76,7 @@ const Dashboard = () => {
           <HiOutlineUserGroup className="stroke-current text-blue-800 dark:text-gray-800 transform transition-transform duration-500 ease-in-out w-8 h-8" />
         </div>
         <div className="text-right">
-          <p className="text-2xl">000</p>
+          <p className="text-2xl">{sellerCount}</p>
           <p>Sellers</p>
         </div>
       </div>
@@ -44,7 +86,7 @@ const Dashboard = () => {
           <HiOutlineUserGroup className="stroke-current text-blue-800 dark:text-gray-800 transform transition-transform duration-500 ease-in-out w-8 h-8" />
         </div>
         <div className="text-right">
-          <p className="text-2xl">000</p>
+          <p className="text-2xl">{buyerCount}</p>
           <p>Buyers</p>
         </div>
       </div>
