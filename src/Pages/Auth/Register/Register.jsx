@@ -120,45 +120,11 @@ const Register = () => {
     reset();
   };
 
-  /*  
-
-    if (password.length < 6) {
-      toast.error("Password must be at least 6 characters long");
-      return;
-    }
-
-    register(email, password)
-      .then((result) => {
-        toast.success("Registration successful");
-        // JWT TOKEN
-        setJwtToken(result.user);
-
-        updateProfile(result.user, {
-          displayName: name,
-          photoURL: photoURL,
-        })
-          .then(() => {
-            setLoading(false);
-            toast.info("Profile Updated");
-          })
-          .catch((error) => {
-            showAuthErrorToast(error);
-          });
-
-        navigate(from, { replace: true });
-      })
-      .catch((error) => {
-        showAuthErrorToast(error);
-        setLoading(false);
-      });
-      
-      */
-
   const handleGoogleLogin = () => {
     loginWithGoogle()
       .then((result) => {
         // JWT TOKEN
-        setJwtToken(result.user);
+        setJwtToken(result.user.email);
 
         navigate(from, { replace: true });
         toast.success(`Welcome ${result.user.displayName}`);
@@ -173,7 +139,7 @@ const Register = () => {
     loginWithGitHub()
       .then((result) => {
         // JWT TOKEN
-        setJwtToken(result.user);
+        setJwtToken(result.user.email);
 
         navigate(from, { replace: true });
         toast.success(`Welcome ${result.user.displayName}`);

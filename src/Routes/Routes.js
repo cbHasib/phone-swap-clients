@@ -7,6 +7,7 @@ import Register from "../Pages/Auth/Register/Register";
 import Blog from "../Pages/Blog/Blog";
 import SingleBlog from "../Pages/Blog/SingleBlog";
 import Contact from "../Pages/Contact/Contact";
+import Admins from "../Pages/Dashboard/Admin/Admins/Admins";
 import Buyers from "../Pages/Dashboard/Admin/Buyers/Buyers";
 import Dashboard from "../Pages/Dashboard/Admin/Dashboard/Dashboard";
 import Products from "../Pages/Dashboard/Admin/Products/Products";
@@ -102,6 +103,10 @@ export const routes = createBrowserRouter([
       {
         path: "/dashboard/update-profile",
         element: <UpdateProfile />,
+      },
+      {
+        path: "/dashboard/admins",
+        element: <Admins />,
       },
       {
         path: "/dashboard/sellers",

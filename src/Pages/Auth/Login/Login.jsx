@@ -1,4 +1,4 @@
-import { Modal } from "flowbite-react";
+import { Button, Modal, Spinner } from "flowbite-react";
 import React, { useContext, useState } from "react";
 import { FaEnvelope, FaGithub, FaGoogle, FaUnlock } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -7,9 +7,13 @@ import { AuthContext } from "../../../Contexts/UserContext";
 import useScrollToTop from "../../../hooks/useScrollToTop";
 import useTitle from "../../../hooks/useTitle";
 import { showAuthErrorToast } from "../../../customFunction/showAuthErrorToast";
+import { useForm } from "react-hook-form";
+import { setJwtToken } from "../../../customFunction/setJwtToken";
 
 const Login = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [submitLoading, setSubmitLoading] = useState(false);
+  const { register, reset, handleSubmit } = useForm();
   const {
     loginWithGoogle,
     loginWithGitHub,
@@ -32,48 +36,23 @@ const Login = () => {
     setIsOpen(false);
   };
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    const email = e.target.email.value;
-    const password = e.target.password.value;
-    try {
-      signIn(email, password)
-        .then((result) => {
-          const currentUser = {
-            email: result.user.email,
-            uid: result.user.uid,
-            displayName: result.user.displayName,
-          };
-
-          // JWT TOKEN
-          fetch(`${process.env.REACT_APP_SERVER_URL}/jwt`, {
-            method: "POST",
-            headers: {
-              "content-type": "application/json",
-            },
-            body: JSON.stringify(currentUser),
-          })
-            .then((res) => res.json())
-            .then((data) => {
-              // SET TOKEN TO LOCAL STORAGE
-              localStorage.setItem("token", data.token);
-              navigate(from, { replace: true });
-              toast.success("Login Successful");
-              e.target.reset();
-            })
-            .catch((error) => {
-              showAuthErrorToast(error);
-            });
-          setLoading(false);
-        })
-        .catch((error) => {
-          setLoading(false);
-          showAuthErrorToast(error);
-        });
-    } catch (error) {
-      showAuthErrorToast(error);
-      setLoading(false);
-    }
+  const handleLogin = (data) => {
+    setSubmitLoading(true);
+    const { email, password } = data;
+    setLoading(true);
+    signIn(email, password)
+      .then((result) => {
+        setJwtToken(result.user.email);
+        reset();
+        navigate(from);
+        setSubmitLoading(false);
+        toast.success(`Welcome back ${result.user.displayName}`);
+      })
+      .catch((err) => {
+        setLoading(false);
+        showAuthErrorToast(err);
+        setSubmitLoading(false);
+      });
   };
 
   const handleGoogleLogin = () => {
@@ -182,7 +161,7 @@ const Login = () => {
           </button>
         </div>
         <div className="mt-8">
-          <form onSubmit={handleLogin}>
+          <form onSubmit={handleSubmit(handleLogin)}>
             <div className="flex flex-col mb-2">
               <div className="flex relative ">
                 <span className="rounded-l-md inline-flex  items-center px-3 border-t bg-white border-l border-b  border-gray-300 text-gray-500 shadow-sm text-sm">
@@ -190,7 +169,10 @@ const Login = () => {
                 </span>
                 <input
                   type="email"
+                  name="email"
+                  {...register("email")}
                   id="email"
+                  required
                   className=" rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                   placeholder="Your email"
                 />
@@ -204,6 +186,8 @@ const Login = () => {
                 <input
                   type="password"
                   id="password"
+                  name="password"
+                  {...register("password")}
                   className=" rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                   placeholder="Your password"
                 />
@@ -220,12 +204,12 @@ const Login = () => {
               </div>
             </div>
             <div className="flex w-full">
-              <button
-                type="submit"
-                className="py-2 px-4  bg-blue-600 hover:bg-blue-700 focus:ring-blue-500 focus:ring-offset-blue-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg "
-              >
-                Login
-              </button>
+              <Button disabled={submitLoading} type="submit" className="w-full">
+                <div className={`mr-3 ${submitLoading || "hidden"}`}>
+                  <Spinner size="sm" light={true} />
+                </div>
+                {submitLoading ? "Loading..." : "Login"}
+              </Button>
             </div>
           </form>
         </div>
