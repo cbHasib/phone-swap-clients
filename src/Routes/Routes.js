@@ -16,6 +16,7 @@ import Sellers from "../Pages/Dashboard/Admin/Sellers/Sellers";
 import VerificationRequest from "../Pages/Dashboard/Admin/VerificationRequest/VerificationRequest";
 import MyOrders from "../Pages/Dashboard/Buyer/MyOrders/MyOrders";
 import MyWishlist from "../Pages/Dashboard/Buyer/MyWishlist/MyWishlist";
+import DashboardHome from "../Pages/Dashboard/DashboardHome/DashboardHome";
 import Profile from "../Pages/Dashboard/Profile/Profile/Profile";
 import UpdateProfile from "../Pages/Dashboard/Profile/UpdateProfile/UpdateProfile";
 import AddProduct from "../Pages/Dashboard/Seller/AddProduct/AddProduct";
@@ -25,7 +26,9 @@ import TestDash from "../Pages/Dashboard/Test/TestDash";
 import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 import Phones from "../Pages/Phones/Phones/Phones";
 import AdminRoute from "./AdminRoute/AdminRoute";
+import BuyerRoute from "./BuyerRoute/BuyerRoute";
 import PrivateRoute from "./PrivateRoute/PrivateRoute";
+import SellerRoute from "./SellerRoute/SellerRoute";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Home } = require("../Pages/Home/Home");
@@ -98,9 +101,7 @@ export const routes = createBrowserRouter([
         index: true,
         element: (
           <PrivateRoute>
-            <AdminRoute>
-              <Dashboard />
-            </AdminRoute>
+            <DashboardHome />
           </PrivateRoute>
         ),
       },
@@ -116,55 +117,129 @@ export const routes = createBrowserRouter([
       },
       {
         path: "/dashboard/profile",
-        element: <Profile />,
+        element: (
+          <PrivateRoute>
+            <Profile />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/dashboard/update-profile",
-        element: <UpdateProfile />,
+        element: (
+          <PrivateRoute>
+            <UpdateProfile />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/dashboard/admins",
-        element: <Admins />,
+        element: (
+          <PrivateRoute>
+            <AdminRoute>
+              <Admins />
+            </AdminRoute>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/dashboard/sellers",
-        element: <Sellers />,
+        element: (
+          <PrivateRoute>
+            <AdminRoute>
+              <Sellers />
+            </AdminRoute>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/dashboard/buyers",
-        element: <Buyers />,
+        element: (
+          <PrivateRoute>
+            <AdminRoute>
+              <Buyers />
+            </AdminRoute>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/dashboard/products",
-        element: <Products />,
+        element: (
+          <PrivateRoute>
+            <AdminRoute>
+              <Products />
+            </AdminRoute>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/dashboard/reported-products",
-        element: <ReportedProduct />,
+        element: (
+          <PrivateRoute>
+            <AdminRoute>
+              <ReportedProduct />
+            </AdminRoute>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/dashboard/verification-request",
-        element: <VerificationRequest />,
+        element: (
+          <PrivateRoute>
+            <AdminRoute>
+              <VerificationRequest />
+            </AdminRoute>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/dashboard/my-products",
-        element: <MyProducts />,
+        element: (
+          <PrivateRoute>
+            <SellerRoute>
+              <MyProducts />
+            </SellerRoute>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/dashboard/add-product",
-        element: <AddProduct />,
+        element: (
+          <PrivateRoute>
+            <SellerRoute>
+              <AddProduct />
+            </SellerRoute>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/dashboard/my-buyers",
-        element: <MyBuyers />,
+        element: (
+          <PrivateRoute>
+            <SellerRoute>
+              <MyBuyers />
+            </SellerRoute>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/dashboard/my-orders",
-        element: <MyOrders />,
+        element: (
+          <PrivateRoute>
+            <BuyerRoute>
+              <MyOrders />
+            </BuyerRoute>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/dashboard/my-wishlist",
-        element: <MyWishlist />,
+        element: (
+          <PrivateRoute>
+            <BuyerRoute>
+              <MyWishlist />
+            </BuyerRoute>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/dashboard/test",

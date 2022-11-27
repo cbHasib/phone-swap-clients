@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import toast from "react-hot-toast";
 import { Navigate, useLocation } from "react-router-dom";
 import { AuthContext } from "../../Contexts/UserContext";
 import useSeller from "../../hooks/useSeller";
@@ -17,7 +18,12 @@ const SellerRoute = ({ children }) => {
     return children;
   }
 
-  return <Navigate to="/login" state={{ from: location }} replace></Navigate>;
+  return (
+    <>
+      <Navigate to="/login" state={{ from: location }} replace />
+      {toast.error("You are not authorized to access this page")}
+    </>
+  );
 };
 
 export default SellerRoute;

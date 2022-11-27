@@ -2,19 +2,19 @@ import React, { useContext } from "react";
 import toast from "react-hot-toast";
 import { Navigate, useLocation } from "react-router-dom";
 import { AuthContext } from "../../Contexts/UserContext";
-import useAdmin from "../../hooks/useAdmin";
+import useBuyer from "../../hooks/useBuyer";
 import LoadingSpinner from "../../Pages/Shared/LoadingSpinner/LoadingSpinner";
 
-const AdminRoute = ({ children }) => {
+const BuyerRoute = ({ children }) => {
   const { user, loading } = useContext(AuthContext);
-  const [isAdmin, isAdminLoading] = useAdmin(user?.email);
+  const [isBuyer, isBuyerLoading] = useBuyer(user?.email);
   const location = useLocation();
 
-  if (loading || isAdminLoading) {
+  if (loading || isBuyerLoading) {
     return <LoadingSpinner />;
   }
 
-  if (user && isAdmin) {
+  if (user && isBuyer) {
     return children;
   }
 
@@ -26,4 +26,4 @@ const AdminRoute = ({ children }) => {
   );
 };
 
-export default AdminRoute;
+export default BuyerRoute;

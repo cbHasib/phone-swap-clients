@@ -19,6 +19,7 @@ const auth = getAuth(app);
 const UserContext = ({ children }) => {
   const [user, setUser] = useState(null);
   const [dbUser, setDbUser] = useState(null);
+  const [dbUserLoading, setDbUserLoading] = useState(true);
   const [loading, setLoading] = useState(true);
 
   const googleProvider = new GoogleAuthProvider();
@@ -62,8 +63,10 @@ const UserContext = ({ children }) => {
       .then((data) => {
         if (data.success) {
           setDbUser(data.data);
+          setDbUserLoading(false);
         } else {
           setDbUser(null);
+          setDbUserLoading(false);
         }
       });
   };
@@ -91,6 +94,7 @@ const UserContext = ({ children }) => {
     loginWithGoogle,
     loginWithGitHub,
     dbUser,
+    dbUserLoading,
   };
 
   return (
