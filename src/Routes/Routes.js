@@ -7,9 +7,11 @@ import Register from "../Pages/Auth/Register/Register";
 import Blog from "../Pages/Blog/Blog";
 import SingleBlog from "../Pages/Blog/SingleBlog";
 import Contact from "../Pages/Contact/Contact";
+import AddProductCategory from "../Pages/Dashboard/Admin/AddProductCategory/AddProductCategory";
 import Admins from "../Pages/Dashboard/Admin/Admins/Admins";
 import Buyers from "../Pages/Dashboard/Admin/Buyers/Buyers";
 import Dashboard from "../Pages/Dashboard/Admin/Dashboard/Dashboard";
+import ProductCategory from "../Pages/Dashboard/Admin/ProductCategory/ProductCategory";
 import Products from "../Pages/Dashboard/Admin/Products/Products";
 import ReportedProduct from "../Pages/Dashboard/Admin/ReportedProduct/ReportedProduct";
 import Sellers from "../Pages/Dashboard/Admin/Sellers/Sellers";
@@ -167,6 +169,26 @@ export const routes = createBrowserRouter([
           <PrivateRoute>
             <AdminRoute>
               <Products />
+            </AdminRoute>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/dashboard/product-category",
+        element: (
+          <PrivateRoute>
+            <AdminRoute>
+              <ProductCategory />
+            </AdminRoute>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/dashboard/add-product-category",
+        element: (
+          <PrivateRoute>
+            <AdminRoute>
+              <AddProductCategory />
             </AdminRoute>
           </PrivateRoute>
         ),

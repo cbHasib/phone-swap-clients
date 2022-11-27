@@ -6,89 +6,101 @@ import {
   Textarea,
   TextInput,
 } from "flowbite-react";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import useScrollToTop from "../../../../hooks/useScrollToTop";
 import useTitle from "../../../../hooks/useTitle";
 import { HiOutlineCloudUpload, HiOutlinePlus } from "react-icons/hi";
+import { getCurrentDate } from "../../../../customFunction/getCurrentDate";
+import useDbUser from "../../../../hooks/useDbUser";
+import { AuthContext } from "../../../../Contexts/UserContext";
+import { useQuery } from "@tanstack/react-query";
+import LoadingSpinner from "../../../Shared/LoadingSpinner/LoadingSpinner";
+import { useNavigate } from "react-router-dom";
 
 const AddProduct = () => {
+  useTitle("Add New Product");
+  useScrollToTop();
   const [productPhoto, setProductPhoto] = useState("");
   const [uploadFiles, setUploadFiles] = useState([]);
   const [submitLoad, setSubmitLoad] = useState(false);
   const { register, reset, handleSubmit } = useForm();
 
-  const handleAddProduct = (data) => {
+  const navigate = useNavigate();
+
+  const { user, loading } = useContext(AuthContext);
+  const [dbUser, isDbUserLoading] = useDbUser(user?.email);
+
+  const { data: categories = [], isLoading } = useQuery({
+    queryKey: ["categories"],
+    queryFn: async () => {
+      const res = await fetch(
+        `${process.env.REACT_APP_API_URL}/productCategory`
+      );
+      const data = await res.json();
+
+      if (data.success) {
+        return data.data;
+      } else {
+        return [];
+      }
+    },
+  });
+
+  const handleAddProduct = async (data) => {
     setSubmitLoad(true);
-    data.image = uploadFiles;
-    data.post_time = new Date().toString();
+    if (uploadFiles.length > 0) {
+      const formData = new FormData();
+      formData.append("image", uploadFiles[0]);
+      const response = await fetch(
+        `https://api.imgbb.com/1/upload?key=${process.env.REACT_APP_IMGBB_KEY}&name=${data.product_name}`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+      const imgData = await response.json();
 
-    data.seller_name = "Seller Name";
-    data.sellerId = 1;
-    // seller_isVerified = true;
-
-    data.categoryId = 1;
+      if (imgData.success) {
+        data.image = imgData.data.display_url;
+      }
+    } else {
+      setSubmitLoad(false);
+      return toast.error("Please select a product image");
+    }
+    data.post_time = getCurrentDate();
+    data.seller_name = dbUser.name;
+    data.seller_id = dbUser._id;
     data.promoted = false;
-
     data.status = "Available";
 
-    console.log(data);
-    toast.success("Product Added Successfully");
-
-    setTimeout(() => {
+    const newData = { ...data };
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/product`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify(newData),
+      });
+      const data = await response.json();
+      if (data.success) {
+        toast.success("Product Added Successfully");
+        reset();
+        setProductPhoto("");
+        setUploadFiles([]);
+        navigate("/dashboard/my-products");
+      } else {
+        toast.error("Something went wrong");
+      }
       setSubmitLoad(false);
-    }, 5000);
-
-    /* 
-    fetch(`${process.env.REACT_APP_SERVER_URL}/add-new-service`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(newData),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          reset();
-          toast.success(data.message);
-        } else {
-          toast.error(data.error);
-        }
-        setLoad(false);
-      })
-      .catch((error) => {
-        setLoad(false);
-        toast.error(error.message);
-      }); */
+    } catch (error) {
+      toast.error(error.message);
+      setSubmitLoad(false);
+    }
   };
-
-  /* 
-
-   _id: 1,
-   // name: "Product Name kbdfjbjh b jbjbbhuy  ihiefbiu jhsgfduyguyg  ",
-  //  image: "https://picsum.photos/200/300",
-   // description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.",
-    category: "Category Name",
-   // condition: "Good",
-   // location: "Dhaka",
- //   resale_price: 200,
-  //  original_price: 300,
-  //  years_used: 1,
-    post_time: "2021-08-01T12:00:00.000Z",
-    seller_name: "Seller Name",
-    sellerId: 1,
-    seller_isVerified: true,
-
-    categoryId: 1,
-    promoted: true,
-    sold: false,
-*/
-
-  useTitle("Add New Product");
-  useScrollToTop();
 
   const sellerLocation = [
     { value: "Dhaka", label: "Dhaka" },
@@ -101,6 +113,9 @@ const AddProduct = () => {
     { value: "Mymensingh", label: "Mymensingh" },
   ];
 
+  if (isLoading || loading || isDbUserLoading) {
+    return <LoadingSpinner />;
+  }
   return (
     <>
       <div className="lg:py-10 lg:px-20 mx-auto">
@@ -108,8 +123,8 @@ const AddProduct = () => {
           onSubmit={handleSubmit(handleAddProduct)}
           className="flex flex-col gap-4 p-10 bg-white dark:bg-gray-800 rounded-lg shadow-lg"
         >
-          <div className="grid grid-cols-1 gap-5">
-            <div>
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-5">
+            <div className="lg:col-span-3">
               <div className="mb-2 block w-full">
                 <Label htmlFor="product_name" value="Product Name" />
               </div>
@@ -121,6 +136,27 @@ const AddProduct = () => {
                 shadow={true}
                 {...register("product_name")}
               />
+            </div>
+
+            <div>
+              <div className="mb-2 block">
+                <Label htmlFor="category_id" value="Your Phone Category" />
+              </div>
+              <Select
+                id="category_id"
+                required={true}
+                shadow={true}
+                {...register("category_id")}
+              >
+                <option disabled defaultChecked value="">
+                  Select Category
+                </option>
+                {categories?.map((category) => (
+                  <option key={category._id} value={category._id}>
+                    {category.name}
+                  </option>
+                ))}
+              </Select>
             </div>
           </div>
 
@@ -236,7 +272,7 @@ const AddProduct = () => {
                   valueAsNumber: true,
                 })}
               >
-                <option disabled defaultChecked value="">
+                <option disabled defaultChecked>
                   Select Years
                 </option>
 
@@ -305,7 +341,6 @@ const AddProduct = () => {
                     if (file) {
                       if (file.type.includes("image")) {
                         setUploadFiles(e.target.files);
-                        console.log(file);
                         const url = URL.createObjectURL(file);
                         setProductPhoto(url);
                       } else {
