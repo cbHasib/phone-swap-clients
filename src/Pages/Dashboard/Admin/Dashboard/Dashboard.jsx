@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import React, { useState } from "react";
 import {
   HiOutlineCube,
   HiOutlineShieldExclamation,
@@ -10,39 +11,33 @@ import ErrorMessage from "../../../Shared/ErrorMessage/ErrorMessage";
 import LoadingSpinner from "../../../Shared/LoadingSpinner/LoadingSpinner";
 
 const Dashboard = () => {
-  const [load, setLoad] = useState(false);
   const [errorMessages, setErrorMessages] = useState("");
-  const [counts, setCounts] = useState([]);
 
-  useEffect(() => {
-    setLoad(true);
-    const getCounts = async () => {
+  const { data: counts = [], isLoading } = useQuery({
+    queryKey: ["counts"],
+    queryFn: async () => {
       const res = await fetch(`${process.env.REACT_APP_API_URL}/dashboard`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
       const data = await res.json();
 
       if (data.success) {
-        setCounts(data.data);
         setErrorMessages("");
-        setLoad(false);
+        return data.data;
       } else {
         setErrorMessages(data.error);
-        setLoad(false);
+        return [];
       }
-    };
-    getCounts();
-  }, []);
+    },
+  });
 
-  if (load) {
+  if (isLoading) {
     return <LoadingSpinner />;
   }
-
-  console.log(errorMessages);
 
   if (errorMessages) {
     return <ErrorMessage error={errorMessages} />;

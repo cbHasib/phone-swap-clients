@@ -1,22 +1,79 @@
+import { useQuery } from "@tanstack/react-query";
 import { Button } from "flowbite-react";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { HiTrash } from "react-icons/hi";
 import ErrorMessage from "../../../Shared/ErrorMessage/ErrorMessage";
 import LoadingSpinner from "../../../Shared/LoadingSpinner/LoadingSpinner";
 
 const Sellers = () => {
-  const [load, setLoad] = useState(false);
   const [errorMessages, setErrorMessages] = useState("");
-  const [sellers, setSellers] = useState([]);
 
-  useEffect(() => {
-    setLoad(true);
-    const getSellers = async () => {
+  const {
+    data: sellers = [],
+    refetch,
+    isLoading,
+  } = useQuery({
+    queryKey: ["sellers"],
+    queryFn: async () => {
       const res = await fetch(
         `${process.env.REACT_APP_API_URL}/users?role=seller`,
         {
           method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      const data = await res.json();
+
+      if (data.success) {
+        setErrorMessages("");
+        return data.data;
+      } else {
+        setErrorMessages(data.error);
+        return [];
+      }
+    },
+  });
+
+  const handleDeleteSeller = (id) => {
+    const userConfirmation = window.confirm(
+      "Are you sure you want to delete this seller?"
+    );
+    if (userConfirmation) {
+      fetch(`${process.env.REACT_APP_API_URL}/users/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success) {
+            toast.success(data.message);
+          } else {
+            toast.error(data.error);
+          }
+          refetch();
+        })
+        .catch((err) => {
+          toast.error(err.message);
+        });
+    }
+  };
+
+  const handleSellerVerification = async (id) => {
+    const userConfirmation = window.confirm(
+      "Are you sure you want to verify this seller?"
+    );
+    if (userConfirmation) {
+      const res = await fetch(
+        `${process.env.REACT_APP_API_URL}/users/verify/${id}`,
+        {
+          method: "PUT",
           headers: {
             "Content-Type": "application/json",
             authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -24,83 +81,41 @@ const Sellers = () => {
         }
       );
       const data = await res.json();
-
       if (data.success) {
-        setSellers(data.data);
-        setErrorMessages("");
+        toast.success(data.message);
       } else {
-        setErrorMessages(data.error);
+        toast.error(data.error);
       }
-      setLoad(false);
-    };
-    getSellers();
-  }, []);
-
-  const handleDeleteSeller = (id) => {
-    setLoad(true);
-    fetch(`${process.env.REACT_APP_API_URL}/users/${id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          toast.success(data.message);
-        } else {
-          toast.error(data.error);
-        }
-        setLoad(false);
-      })
-      .catch((err) => {
-        toast.error(err.message);
-        setLoad(false);
-      });
-  };
-
-  const handleSellerVerification = async (id) => {
-    toast.success(`Verified seller ${id}`);
-
-    const res = await fetch(
-      `${process.env.REACT_APP_API_URL}/users/verify/${id}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
-    const data = await res.json();
-    if (data.success) {
-      toast.success(data.message);
-    } else {
-      toast.error(data.error);
+      refetch();
     }
   };
 
   const handleMakeAdmin = async (id) => {
-    const res = await fetch(
-      `${process.env.REACT_APP_API_URL}/users/admin/${id}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
+    const userConfirmation = window.confirm(
+      "Are you sure you want to make this user an admin?"
     );
-    const data = await res.json();
-    if (data.success) {
-      toast.success(data.message);
-    } else {
-      toast.error(data.error);
+    if (userConfirmation) {
+      const res = await fetch(
+        `${process.env.REACT_APP_API_URL}/users/admin/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      const data = await res.json();
+      if (data.success) {
+        toast.success(data.message);
+      } else {
+        toast.error(data.error);
+      }
+      refetch();
     }
   };
 
-  if (load) {
+  if (isLoading) {
     return <LoadingSpinner />;
   }
 

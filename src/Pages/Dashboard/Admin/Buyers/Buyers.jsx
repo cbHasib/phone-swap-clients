@@ -1,22 +1,76 @@
+import { useQuery } from "@tanstack/react-query";
 import { Button } from "flowbite-react";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { HiTrash } from "react-icons/hi";
 import ErrorMessage from "../../../Shared/ErrorMessage/ErrorMessage";
 import LoadingSpinner from "../../../Shared/LoadingSpinner/LoadingSpinner";
 
 const Buyers = () => {
-  const [load, setLoad] = useState(false);
   const [errorMessages, setErrorMessages] = useState("");
-  const [buyers, setBuyers] = useState([]);
 
-  useEffect(() => {
-    setLoad(true);
-    const getBuyers = async () => {
+  const {
+    data: buyers = [],
+    refetch,
+    isLoading,
+  } = useQuery({
+    queryKey: ["buyers"],
+    queryFn: async () => {
       const res = await fetch(
         `${process.env.REACT_APP_API_URL}/users?role=buyer`,
         {
           method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      const data = await res.json();
+
+      if (data.success) {
+        setErrorMessages("");
+        return data.data;
+      } else {
+        setErrorMessages(data.error);
+        return [];
+      }
+    },
+  });
+
+  const handleDeleteBuyer = (id) => {
+    const userConfirmation = window.confirm(
+      "Are you sure you want to delete this buyer?"
+    );
+    if (userConfirmation) {
+      fetch(`${process.env.REACT_APP_API_URL}/users/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success) {
+            toast.success(data.message);
+          } else {
+            toast.error(data.error);
+          }
+          refetch();
+        });
+    }
+  };
+
+  const handleMakeAdmin = async (id) => {
+    const userConfirmation = window.confirm(
+      "Are you sure you want to make this user an admin?"
+    );
+    if (userConfirmation) {
+      const res = await fetch(
+        `${process.env.REACT_APP_API_URL}/users/admin/${id}`,
+        {
+          method: "PUT",
           headers: {
             "Content-Type": "application/json",
             authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -24,28 +78,16 @@ const Buyers = () => {
         }
       );
       const data = await res.json();
-
       if (data.success) {
-        setBuyers(data.data);
-        setErrorMessages("");
-        setLoad(false);
+        toast.success(data.message);
       } else {
-        setErrorMessages(data.error);
-        setLoad(false);
+        toast.error(data.error);
       }
-    };
-    getBuyers();
-  }, []);
-
-  const handleDeleteBuyer = (id) => {
-    toast.success(`Deleted ${id}`);
+      refetch();
+    }
   };
 
-  const handleMakeAdmin = (id) => {
-    toast.success(`Admin ${id}`);
-  };
-
-  if (load) {
+  if (isLoading) {
     return <LoadingSpinner />;
   }
 

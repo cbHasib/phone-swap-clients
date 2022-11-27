@@ -1,22 +1,74 @@
+import { useQuery } from "@tanstack/react-query";
 import { Button } from "flowbite-react";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { HiTrash } from "react-icons/hi";
 import ErrorMessage from "../../../Shared/ErrorMessage/ErrorMessage";
 import LoadingSpinner from "../../../Shared/LoadingSpinner/LoadingSpinner";
 
 const Admins = () => {
-  const [load, setLoad] = useState(false);
   const [errorMessages, setErrorMessages] = useState("");
-  const [admins, setAdmins] = useState([]);
 
-  useEffect(() => {
-    setLoad(true);
-    const getAdmins = async () => {
+  const {
+    data: admins = [],
+    refetch,
+    isLoading,
+  } = useQuery({
+    queryKey: ["admins"],
+    queryFn: async () => {
       const res = await fetch(
         `${process.env.REACT_APP_API_URL}/users?role=admin`,
         {
           method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      const data = await res.json();
+
+      if (data.success) {
+        setErrorMessages("");
+        return data.data;
+      } else {
+        setErrorMessages(data.error);
+        return [];
+      }
+    },
+  });
+
+  const handleDeleteAdmin = async (id) => {
+    const userConfirmation = window.confirm(
+      "Are you sure you want to delete this admin?"
+    );
+    if (userConfirmation) {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/users/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      const data = await res.json();
+      if (data.success) {
+        toast.success(data.message);
+      } else {
+        toast.error(data.error);
+      }
+      refetch();
+    }
+  };
+
+  const handleAdminVerification = async (id) => {
+    const userConfirmation = window.confirm(
+      "Are you sure you want to verify this admin?"
+    );
+    if (userConfirmation) {
+      const res = await fetch(
+        `${process.env.REACT_APP_API_URL}/users/verify/${id}`,
+        {
+          method: "PUT",
           headers: {
             "Content-Type": "application/json",
             authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -24,58 +76,15 @@ const Admins = () => {
         }
       );
       const data = await res.json();
-
       if (data.success) {
-        setAdmins(data.data);
-        setErrorMessages("");
+        toast.success(data.message);
       } else {
-        setErrorMessages(data.error);
+        toast.error(data.error);
       }
-      setLoad(false);
-    };
-    getAdmins();
-  }, []);
-
-  const handleDeleteAdmin = async (id) => {
-    const res = await fetch(
-      `${process.env.REACT_APP_API_URL}/users/delete/${id}`,
-      {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
-    const data = await res.json();
-    if (data.success) {
-      toast.success(data.message);
-      setAdmins(admins.filter((admin) => admin._id !== id));
-    } else {
-      toast.error(data.error);
     }
   };
 
-  const handleAdminVerification = async (id) => {
-    const res = await fetch(
-      `${process.env.REACT_APP_API_URL}/users/verify/${id}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
-    const data = await res.json();
-    if (data.success) {
-      toast.success(data.message);
-    } else {
-      toast.error(data.error);
-    }
-  };
-
-  if (load) {
+  if (isLoading) {
     return <LoadingSpinner />;
   }
 
