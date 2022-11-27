@@ -1,34 +1,42 @@
 import { Button } from "flowbite-react";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import toast from "react-hot-toast";
 import { HiOutlineTrendingUp, HiTrash } from "react-icons/hi";
 import { AuthContext } from "../../../../Contexts/UserContext";
 import useDbUser from "../../../../hooks/useDbUser";
 import LoadingSpinner from "../../../Shared/LoadingSpinner/LoadingSpinner";
-import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 
 const MyProducts = () => {
   const { user, loading } = useContext(AuthContext);
   const [dbUser, isDbUserLoading] = useDbUser(user?.email);
 
-  const [myProducts, setMyProducts] = useState([]);
-
-  useEffect(() => {
-    if (dbUser) {
-      axios
-        .get(`${process.env.REACT_APP_API_URL}/products/seller/${dbUser._id}`, {
+  const {
+    data: myProductsAll = [],
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ["myProductsAlls", dbUser?._id], // unique key"],
+    queryFn: async () => {
+      const res = await fetch(
+        `${process.env.REACT_APP_API_URL}/products/seller/${dbUser?._id}`,
+        {
+          method: "GET",
           headers: {
             "Content-Type": "application/json",
-            authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        })
-        .then((res) => {
-          if (res.data.success) {
-            setMyProducts(res.data.data.reverse());
-          }
-        });
-    }
-  }, [dbUser]);
+        }
+      );
+      const data = await res.json();
+
+      if (data.success) {
+        return data.data.reverse();
+      } else {
+        return [];
+      }
+    },
+  });
 
   const handleDeleteProduct = (id) => {
     const userConfirmation = window.confirm(
@@ -49,6 +57,7 @@ const MyProducts = () => {
           } else {
             toast.error(data.error);
           }
+          refetch();
         })
         .catch((err) => {
           toast.error(err.message);
@@ -56,7 +65,7 @@ const MyProducts = () => {
     }
   };
 
-  if (loading || isDbUserLoading) {
+  if (loading || isDbUserLoading || isLoading) {
     return <LoadingSpinner />;
   }
 
@@ -78,7 +87,7 @@ const MyProducts = () => {
               </tr>
             </thead>
             <tbody className="bg-white divide-y dark:divide-gray-700 dark:bg-gray-900">
-              {myProducts?.map((product) => (
+              {myProductsAll?.map((product) => (
                 <tr
                   className="text-gray-700 dark:text-gray-400"
                   key={product?._id}
