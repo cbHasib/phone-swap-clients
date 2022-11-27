@@ -1,48 +1,64 @@
-import { useQuery } from "@tanstack/react-query";
 import { Button } from "flowbite-react";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { HiOutlineTrendingUp, HiTrash } from "react-icons/hi";
 import { AuthContext } from "../../../../Contexts/UserContext";
 import useDbUser from "../../../../hooks/useDbUser";
 import LoadingSpinner from "../../../Shared/LoadingSpinner/LoadingSpinner";
+import axios from "axios";
 
 const MyProducts = () => {
   const { user, loading } = useContext(AuthContext);
   const [dbUser, isDbUserLoading] = useDbUser(user?.email);
 
-  const { data: myProducts = [], isLoading } = useQuery({
-    queryKey: ["myProducts"],
-    queryFn: async () => {
-      const res = await fetch(
-        `${process.env.REACT_APP_API_URL}/product/${dbUser?._id}`,
-        {
-          method: "GET",
+  const [myProducts, setMyProducts] = useState([]);
+
+  useEffect(() => {
+    if (dbUser) {
+      axios
+        .get(`${process.env.REACT_APP_API_URL}/products/seller/${dbUser._id}`, {
           headers: {
             "Content-Type": "application/json",
             authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        }
-      );
-      const data = await res.json();
-
-      if (data.success) {
-        return data.data;
-      } else {
-        return [];
-      }
-    },
-  });
+        })
+        .then((res) => {
+          if (res.data.success) {
+            setMyProducts(res.data.data.reverse());
+          }
+        });
+    }
+  }, [dbUser]);
 
   const handleDeleteProduct = (id) => {
-    toast.success(`Deleted ${id}`);
+    const userConfirmation = window.confirm(
+      "Are you sure you want to delete this product?"
+    );
+    if (userConfirmation) {
+      fetch(`${process.env.REACT_APP_API_URL}/products/seller/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success) {
+            toast.success(data.message);
+          } else {
+            toast.error(data.error);
+          }
+        })
+        .catch((err) => {
+          toast.error(err.message);
+        });
+    }
   };
 
-  if (loading || isDbUserLoading || isLoading) {
+  if (loading || isDbUserLoading) {
     return <LoadingSpinner />;
   }
-
-  console.log(myProducts);
 
   return (
     <div className="px-5">
@@ -73,7 +89,7 @@ const MyProducts = () => {
                       <div className="relative hidden w-8 h-8 mr-3 rounded-full md:block">
                         <img
                           className="object-cover w-full h-full rounded-full"
-                          src={product.image}
+                          src={product?.image}
                           alt=""
                           loading="lazy"
                         />
@@ -83,25 +99,25 @@ const MyProducts = () => {
                         ></div>
                       </div>
                       <div>
-                        <p className="font-semibold">{product.product_name}</p>
+                        <p className="font-semibold">{product?.product_name}</p>
                       </div>
                     </div>
                   </td>
                   <td className="px-4 py-3 text-sm">
-                    $ {product.resale_price}
+                    $ {product?.resale_price}
                   </td>
                   <td className="px-4 py-3 text-xs">
                     <span
                       className={
-                        product.status === "Sold"
+                        product?.status === "Sold"
                           ? "px-2 py-1 font-semibold leading-tight text-yellow-700 bg-yellow-100 rounded-full dark:bg-yellow-700 dark:text-yellow-100"
                           : "px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100"
                       }
                     >
-                      {product.status === "Sold" ? "Sold" : "Available"}
+                      {product?.status === "Sold" ? "Sold" : "Available"}
                     </span>
                   </td>
-                  <td className="px-4 py-3 text-sm">{product.post_time}</td>
+                  <td className="px-4 py-3 text-sm">{product?.post_time}</td>
                   <td className="px-4 py-3">
                     <div className="flex items-center space-x-4 text-sm">
                       <button
@@ -113,13 +129,13 @@ const MyProducts = () => {
                         <HiTrash className="w-5 h-5" />
                       </button>
 
-                      {!product.promoted && product.status === "Available" && (
+                      {!product?.promoted && product?.status === "Available" && (
                         <Button
                           size="xs"
                           color="light"
-                          disabled={product.status === "Sold"}
+                          disabled={product?.status === "Sold"}
                           title={
-                            product.status === "Sold"
+                            product?.status === "Sold"
                               ? "Product is Sold"
                               : "Promote This Ads"
                           }
