@@ -106,7 +106,7 @@ export const routes = createBrowserRouter([
         ),
       },
       {
-        path: "/dashboard",
+        path: "/dashboard/dashboard",
         element: (
           <PrivateRoute>
             <AdminRoute>

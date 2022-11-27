@@ -65,27 +65,9 @@ const Login = () => {
   const handleGoogleLogin = () => {
     loginWithGoogle()
       .then((result) => {
-        const currentUser = {
-          email: result.user.email,
-          uid: result.user.uid,
-          displayName: result.user.displayName,
-        };
-
-        // JWT TOKEN
-        fetch(`${process.env.REACT_APP_SERVER_URL}/jwt`, {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify(currentUser),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            // SET TOKEN TO LOCAL STORAGE
-            localStorage.setItem("token", data.token);
-            navigate(from, { replace: true });
-            toast.success(`Welcome ${result.user.displayName}`);
-          });
+        setJwtToken(result.user.email);
+        navigate(from, { replace: true });
+        toast.success(`Welcome back ${result.user.displayName}`);
       })
       .catch((error) => {
         showAuthErrorToast(error);

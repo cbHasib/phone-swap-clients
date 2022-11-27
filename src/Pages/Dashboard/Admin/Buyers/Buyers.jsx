@@ -14,7 +14,14 @@ const Buyers = () => {
     setLoad(true);
     const getBuyers = async () => {
       const res = await fetch(
-        `${process.env.REACT_APP_API_URL}/users?role=buyer`
+        `${process.env.REACT_APP_API_URL}/users?role=buyer`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
       );
       const data = await res.json();
 

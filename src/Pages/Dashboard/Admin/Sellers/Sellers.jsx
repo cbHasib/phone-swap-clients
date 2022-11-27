@@ -2,7 +2,6 @@ import { Button } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { HiTrash } from "react-icons/hi";
-import { setJwtToken } from "../../../../customFunction/setJwtToken";
 import ErrorMessage from "../../../Shared/ErrorMessage/ErrorMessage";
 import LoadingSpinner from "../../../Shared/LoadingSpinner/LoadingSpinner";
 
@@ -15,7 +14,14 @@ const Sellers = () => {
     setLoad(true);
     const getSellers = async () => {
       const res = await fetch(
-        `${process.env.REACT_APP_API_URL}/users?role=seller`
+        `${process.env.REACT_APP_API_URL}/users?role=seller`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
       );
       const data = await res.json();
 
@@ -31,8 +37,27 @@ const Sellers = () => {
   }, []);
 
   const handleDeleteSeller = (id) => {
-    toast.success(`Deleted ${id}`);
-    setJwtToken("hasibul.pbn@gmail.com");
+    setLoad(true);
+    fetch(`${process.env.REACT_APP_API_URL}/users/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          toast.success(data.message);
+        } else {
+          toast.error(data.error);
+        }
+        setLoad(false);
+      })
+      .catch((err) => {
+        toast.error(err.message);
+        setLoad(false);
+      });
   };
 
   const handleSellerVerification = async (id) => {

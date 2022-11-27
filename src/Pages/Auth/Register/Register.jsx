@@ -17,6 +17,7 @@ import {
   HiUser,
 } from "react-icons/hi";
 import { Button, Label, Radio, Spinner, TextInput } from "flowbite-react";
+import { getCurrentDate } from "../../../customFunction/getCurrentDate";
 
 const Register = () => {
   useScrollToTop();
@@ -34,6 +35,8 @@ const Register = () => {
 
   const { loginWithGoogle, loginWithGitHub, register, setLoading } =
     useContext(AuthContext);
+
+  const date = getCurrentDate();
 
   const handleRegister = async (data) => {
     const password = data.password;
@@ -88,7 +91,7 @@ const Register = () => {
       });
       const { uid } = user;
       const newUser = {
-        _id: uid,
+        uid,
         name,
         email,
         phone,
@@ -108,7 +111,8 @@ const Register = () => {
       const data = await response.json();
       if (data.success) {
         toast.success(data.message);
-        // navigate(from);
+
+        navigate(from, { replace: true });
         setJwtToken(user.email);
       } else {
         toast.error(data.error);
@@ -123,12 +127,38 @@ const Register = () => {
 
   const handleGoogleLogin = () => {
     loginWithGoogle()
-      .then((result) => {
-        // JWT TOKEN
-        setJwtToken(result.user.email);
+      .then(async (result) => {
+        const { displayName, email, photoURL, uid } = result.user;
 
-        navigate(from, { replace: true });
-        toast.success(`Welcome ${result.user.displayName}`);
+        const newUser = {
+          name: displayName,
+          email,
+          phone: "",
+          role: "buyer",
+          isVerified: false,
+          image: photoURL,
+          joinDate: date,
+          wishlist: [],
+          uid,
+        };
+
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/users`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newUser),
+        });
+        const data = await response.json();
+        if (data.success) {
+          toast.success(data.message);
+
+          navigate(from, { replace: true });
+          toast.success(`Welcome back ${result.user.displayName}`);
+          setJwtToken(email);
+        } else {
+          toast.error(data.error);
+        }
       })
       .catch((error) => {
         showAuthErrorToast(error);

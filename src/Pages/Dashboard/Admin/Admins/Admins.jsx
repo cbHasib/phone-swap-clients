@@ -14,7 +14,14 @@ const Admins = () => {
     setLoad(true);
     const getAdmins = async () => {
       const res = await fetch(
-        `${process.env.REACT_APP_API_URL}/users?role=admin`
+        `${process.env.REACT_APP_API_URL}/users?role=admin`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
       );
       const data = await res.json();
 
