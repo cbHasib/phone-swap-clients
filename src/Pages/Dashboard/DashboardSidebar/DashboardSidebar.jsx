@@ -11,9 +11,14 @@ import {
 } from "react-icons/hi";
 import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../../../Contexts/UserContext";
+import useDbUser from "../../../hooks/useDbUser";
+import LoadingSpinner from "../../Shared/LoadingSpinner/LoadingSpinner";
 
 const DashboardSidebar = () => {
-  const { dbUser, logout } = useContext(AuthContext);
+  const { user, logout, loading } = useContext(AuthContext);
+  const [dbUser, isDbUserLoading] = useDbUser(user?.email);
+
+  if (loading || isDbUserLoading) return <LoadingSpinner />;
 
   const adminMenu = (
     <>

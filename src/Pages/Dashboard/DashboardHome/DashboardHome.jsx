@@ -2,13 +2,15 @@ import { Card } from "flowbite-react";
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../../Contexts/UserContext";
+import useDbUser from "../../../hooks/useDbUser";
 import ErrorMessage from "../../Shared/ErrorMessage/ErrorMessage";
 import LoadingSpinner from "../../Shared/LoadingSpinner/LoadingSpinner";
 
 const DashboardHome = () => {
-  const { dbUser, dbUserLoading } = useContext(AuthContext);
+  const { user, loading } = useContext(AuthContext);
+  const [dbUser, isDbUserLoading] = useDbUser(user?.email);
 
-  if (dbUserLoading) return <LoadingSpinner />;
+  if (loading || isDbUserLoading) return <LoadingSpinner />;
 
   if (!dbUser) return <ErrorMessage error="User not found" />;
 

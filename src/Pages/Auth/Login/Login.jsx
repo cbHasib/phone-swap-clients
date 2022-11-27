@@ -9,6 +9,7 @@ import useTitle from "../../../hooks/useTitle";
 import { showAuthErrorToast } from "../../../customFunction/showAuthErrorToast";
 import { useForm } from "react-hook-form";
 import { setJwtToken } from "../../../customFunction/setJwtToken";
+import { getCurrentDate } from "../../../customFunction/getCurrentDate";
 
 const Login = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -35,6 +36,7 @@ const Login = () => {
   const hideModal = () => {
     setIsOpen(false);
   };
+  const date = getCurrentDate();
 
   const handleLogin = (data) => {
     setSubmitLoading(true);
@@ -64,10 +66,38 @@ const Login = () => {
 
   const handleGoogleLogin = () => {
     loginWithGoogle()
-      .then((result) => {
-        setJwtToken(result.user.email);
-        navigate(from, { replace: true });
-        toast.success(`Welcome back ${result.user.displayName}`);
+      .then(async (result) => {
+        const { displayName, email, photoURL, uid } = result.user;
+
+        const newUser = {
+          name: displayName,
+          email,
+          phone: "",
+          role: "buyer",
+          isVerified: false,
+          image: photoURL,
+          joinDate: date,
+          wishlist: [],
+          uid,
+        };
+
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/users`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newUser),
+        });
+        const data = await response.json();
+        if (data.success) {
+          toast.success(data.message);
+
+          navigate(from, { replace: true });
+          toast.success(`Welcome back ${result.user.displayName}`);
+          setJwtToken(email);
+        } else {
+          toast.error(data.error);
+        }
       })
       .catch((error) => {
         showAuthErrorToast(error);
@@ -77,28 +107,38 @@ const Login = () => {
 
   const handleGithubLogin = () => {
     loginWithGitHub()
-      .then((result) => {
-        const currentUser = {
-          email: result.user.email,
-          uid: result.user.uid,
-          displayName: result.user.displayName,
+      .then(async (result) => {
+        const { displayName, email, photoURL, uid } = result.user;
+
+        const newUser = {
+          name: displayName,
+          email,
+          phone: "",
+          role: "buyer",
+          isVerified: false,
+          image: photoURL,
+          joinDate: date,
+          wishlist: [],
+          uid,
         };
 
-        // JWT TOKEN
-        fetch(`${process.env.REACT_APP_SERVER_URL}/jwt`, {
-          method: "POST",
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/users`, {
+          method: "PUT",
           headers: {
-            "content-type": "application/json",
+            "Content-Type": "application/json",
           },
-          body: JSON.stringify(currentUser),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            // SET TOKEN TO LOCAL STORAGE
-            localStorage.setItem("token", data.token);
-            navigate(from, { replace: true });
-            toast.success(`Welcome ${result.user.displayName}`);
-          });
+          body: JSON.stringify(newUser),
+        });
+        const data = await response.json();
+        if (data.success) {
+          toast.success(data.message);
+
+          navigate(from, { replace: true });
+          toast.success(`Welcome back ${result.user.displayName}`);
+          setJwtToken(email);
+        } else {
+          toast.error(data.error);
+        }
       })
       .catch((error) => {
         showAuthErrorToast(error);

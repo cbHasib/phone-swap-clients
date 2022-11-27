@@ -168,12 +168,38 @@ const Register = () => {
 
   const handleGithubLogin = () => {
     loginWithGitHub()
-      .then((result) => {
-        // JWT TOKEN
-        setJwtToken(result.user.email);
+      .then(async (result) => {
+        const { displayName, email, photoURL, uid } = result.user;
 
-        navigate(from, { replace: true });
-        toast.success(`Welcome ${result.user.displayName}`);
+        const newUser = {
+          name: displayName,
+          email,
+          phone: "",
+          role: "buyer",
+          isVerified: false,
+          image: photoURL,
+          joinDate: date,
+          wishlist: [],
+          uid,
+        };
+
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/users`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newUser),
+        });
+        const data = await response.json();
+        if (data.success) {
+          toast.success(data.message);
+
+          navigate(from, { replace: true });
+          toast.success(`Welcome back ${result.user.displayName}`);
+          setJwtToken(email);
+        } else {
+          toast.error(data.error);
+        }
       })
       .catch((error) => {
         showAuthErrorToast(error);

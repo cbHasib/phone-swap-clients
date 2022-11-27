@@ -6,7 +6,6 @@ export const setJwtToken = async (email) => {
   const data = await response.json();
 
   // SET TOKEN TO LOCAL STORAGE
-  console.log(data);
   if (data.success) {
     localStorage.setItem("token", data.token);
   }
