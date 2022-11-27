@@ -24,6 +24,8 @@ import MyProducts from "../Pages/Dashboard/Seller/MyProducts/MyProducts";
 import TestDash from "../Pages/Dashboard/Test/TestDash";
 import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 import Phones from "../Pages/Phones/Phones/Phones";
+import AdminRoute from "./AdminRoute/AdminRoute";
+import PrivateRoute from "./PrivateRoute/PrivateRoute";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Home } = require("../Pages/Home/Home");
@@ -85,16 +87,32 @@ export const routes = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <DashboardLayout />,
+    element: (
+      <PrivateRoute>
+        <DashboardLayout />
+      </PrivateRoute>
+    ),
     errorElement: <ErrorPage />,
     children: [
       {
         index: true,
-        element: <Dashboard />,
+        element: (
+          <PrivateRoute>
+            <AdminRoute>
+              <Dashboard />
+            </AdminRoute>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/dashboard",
-        element: <Dashboard />,
+        element: (
+          <PrivateRoute>
+            <AdminRoute>
+              <Dashboard />
+            </AdminRoute>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/dashboard/profile",

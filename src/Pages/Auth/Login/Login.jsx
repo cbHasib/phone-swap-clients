@@ -39,6 +39,13 @@ const Login = () => {
   const handleLogin = (data) => {
     setSubmitLoading(true);
     const { email, password } = data;
+
+    if (!email || !password) {
+      toast.error("Please fill all the fields");
+      setSubmitLoading(false);
+      return;
+    }
+
     setLoading(true);
     signIn(email, password)
       .then((result) => {

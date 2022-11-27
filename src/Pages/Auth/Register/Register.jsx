@@ -118,6 +118,7 @@ const Register = () => {
     }
     setSubmitLoading(false);
     reset();
+    setUserPhoto("");
   };
 
   const handleGoogleLogin = () => {

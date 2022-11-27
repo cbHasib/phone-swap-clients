@@ -13,13 +13,7 @@ import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../../../Contexts/UserContext";
 
 const DashboardSidebar = () => {
-  const { logout } = useContext(AuthContext);
-
-  const user = {
-    name: "John Doe",
-    email: "",
-    role: "admin",
-  };
+  const { dbUser, logout } = useContext(AuthContext);
 
   const adminMenu = (
     <>
@@ -254,16 +248,17 @@ const DashboardSidebar = () => {
           </li>
 
           {
+            // <AdminRoute> {adminMenu} </AdminRoute>
             // Admin Menu
-            user?.role === "admin" && adminMenu
+            dbUser?.role === "admin" && adminMenu
           }
           {
             // Seller Menu
-            user?.role === "seller" && sellerMenu
+            dbUser?.role === "seller" && sellerMenu
           }
           {
             // Buyer Menu
-            user?.role === "buyer" && buyerMenu
+            dbUser?.role === "buyer" && buyerMenu
           }
 
           <li className="px-5 hidden md:block">

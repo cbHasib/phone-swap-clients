@@ -23,7 +23,7 @@ const Buyers = () => {
         setErrorMessages("");
         setLoad(false);
       } else {
-        setErrorMessages(data.errorMessages);
+        setErrorMessages(data.error);
         setLoad(false);
       }
     };
