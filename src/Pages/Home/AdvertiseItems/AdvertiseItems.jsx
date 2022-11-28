@@ -123,30 +123,32 @@ const AdvertiseItems = () => {
 
   return (
     <>
-      <div className="dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-5 py-20">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold text-blue-700 dark:text-white/90 text-center">
-            Sponsored Ads
-          </h2>
+      {promotedProducts?.length > 0 && (
+        <div className="dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-5 py-20">
+          <div className="max-w-7xl mx-auto">
+            <h2 className="text-3xl font-bold text-blue-700 dark:text-white/90 text-center">
+              Sponsored Ads
+            </h2>
 
-          <div className="py-10 flex flex-wrap gap-6 justify-center items-center">
-            {promotedProducts?.map((product) => (
-              <PhonesCardVer
-                key={product?._id}
-                product={product}
-                isLoading={isLoading}
-                bookLoading={bookLoading}
-                wishlistLoading={wishlistLoading}
-                handleAddToWishlist={handleAddToWishlist}
-                handleBooking={handleBooking}
-                productId={productId}
-                handleReport={handleReport}
-                setModalContent={setModalContent}
-              />
-            ))}
+            <div className="py-10 flex flex-wrap gap-6 justify-center items-center">
+              {promotedProducts?.map((product) => (
+                <PhonesCardVer
+                  key={product?._id}
+                  product={product}
+                  isLoading={isLoading}
+                  bookLoading={bookLoading}
+                  wishlistLoading={wishlistLoading}
+                  handleAddToWishlist={handleAddToWishlist}
+                  handleBooking={handleBooking}
+                  productId={productId}
+                  handleReport={handleReport}
+                  setModalContent={setModalContent}
+                />
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       {modalContent && (
         <>
