@@ -146,12 +146,12 @@ const MyProducts = () => {
                   <td className="px-4 py-3 text-xs">
                     <span
                       className={
-                        product?.status === "Sold"
-                          ? "px-2 py-1 font-semibold leading-tight text-yellow-700 bg-yellow-100 rounded-full dark:bg-yellow-700 dark:text-yellow-100"
-                          : "px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100"
+                        product?.status === "Available"
+                          ? "px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100"
+                          : "px-2 py-1 font-semibold leading-tight text-yellow-700 bg-yellow-100 rounded-full dark:bg-yellow-700 dark:text-yellow-100"
                       }
                     >
-                      {product?.status === "Sold" ? "Sold" : "Available"}
+                      {product?.status}
                     </span>
                   </td>
                   <td className="px-4 py-3 text-xs">
@@ -186,7 +186,7 @@ const MyProducts = () => {
                         }
                         title={
                           product?.status === "Sold" || product?.promoted
-                            ? "Product is Sold"
+                            ? `Product is ${product?.status}`
                             : "Promote This Ads"
                         }
                       >
