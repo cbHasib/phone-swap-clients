@@ -1,14 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const CategoryCard = () => {
-  const category = {
-    _id: 1,
-    name: "Category Name",
-    slug: "category-name",
-    image: "https://s3n.cashify.in/cashify/brand/img/xhdpi/20922c34-8afc.jpg",
-  };
-
+const CategoryCard = ({ category }) => {
   const { _id, name, image } = category;
 
   return (

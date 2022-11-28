@@ -20,30 +20,6 @@ const PhonesCardVer = ({
   productId,
   handleReport,
 }) => {
-  const product = {
-    _id: 1,
-    name: "Product Name kbdfjbjh b jbjbbhuy  ihiefbiu jhsgfduyguyg  ",
-    image: "https://picsum.photos/200/300",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.",
-    category: "Category Name",
-    condition: "Good",
-    location: "Dhaka",
-    resale_price: 200,
-    original_price: 300,
-    years_used: 1,
-    post_time: "2021-08-01T12:00:00.000Z",
-    seller_name: "Seller Name",
-    sellerId: 1,
-    seller_isVerified: true,
-
-    categoryId: 1,
-    promoted: true,
-    sold: false,
-  };
-
-  const { seller_isVerified } = product;
-
   return (
     <div className="max-w-[330px] w-full bg-white rounded-md shadow dark:bg-gray-900 drop-shadow-md dark:text-gray-100 p-3 flex flex-col justify-between text-center hover:-translate-y-1 duration-300 relative">
       <div className="absolute top-3 right-3 shadow-lg">
@@ -125,7 +101,7 @@ const PhonesCardVer = ({
               <div className="flex items-center justify-center gap-1 w-fit">
                 <AiOutlineUser className="text-blue-700" />
                 <span>{productInfo?.seller_name}</span>
-                {seller_isVerified && (
+                {productInfo?.seller_isVerified && (
                   <span title="Verified Seller">
                     <FcApproval />
                   </span>

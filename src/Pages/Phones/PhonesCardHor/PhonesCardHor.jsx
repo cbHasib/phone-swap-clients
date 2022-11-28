@@ -15,7 +15,7 @@ import { GoLocation } from "react-icons/go";
 import { FcApproval } from "react-icons/fc";
 import toast from "react-hot-toast";
 
-const PhonesCardHor = () => {
+const PhonesCardHor = ({ product }) => {
   const [wishlistLoading, setWishlistLoading] = useState(false);
   const [bookLoading, setBookLoading] = useState(false);
   const [reportLoading, setReportLoading] = useState(false);
@@ -44,31 +44,33 @@ const PhonesCardHor = () => {
     }, 2000);
   };
 
-  const product = {
-    _id: 1,
-    name: "Product Name kbdfjbjh b jbjbbhuy  ihiefbiu jhsgfduyguyg  ",
-    image: "https://picsum.photos/200/300",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.",
-    category: "Category Name",
-    condition: "Good",
-    location: "Dhaka",
-    resale_price: 200,
-    original_price: 300,
-    years_used: 1,
-    post_time: "2021-08-01T12:00:00.000Z",
-    seller_name: "Seller Name",
-    sellerId: 1,
-    seller_isVerified: true,
+  // const product = {
+  //   _id: 1,
+  //   name: "Product Name kbdfjbjh b jbjbbhuy  ihiefbiu jhsgfduyguyg  ",
+  //   image: "https://picsum.photos/200/300",
+  //   description:
+  //     "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.",
+  //   category: "Category Name",
+  //   condition: "Good",
+  //   location: "Dhaka",
+  //   resale_price: 200,
+  //   original_price: 300,
+  //   years_used: 1,
+  //   post_time: "2021-08-01T12:00:00.000Z",
+  //   seller_name: "Seller Name",
+  //   sellerId: 1,
+  //   seller_isVerified: true,
 
-    categoryId: 1,
-    promoted: true,
-    sold: false,
-  };
+  //   categoryId: 1,
+  //   promoted: true,
+  //   sold: false,
+  // };
+
+  console.log(product);
 
   const {
     _id,
-    name,
+    product_name: name,
     image,
     description,
     condition,
@@ -180,7 +182,7 @@ const PhonesCardHor = () => {
           </p>
         </div>
 
-        <div className="flex flex-wrap md:flex-col justify-center items-center gap-2">
+        <div className="flex flex-wrap md:flex-col justify-center gap-2">
           <Button
             onClick={() => handleBooking(_id)}
             type="button"

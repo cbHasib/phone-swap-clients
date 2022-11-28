@@ -1,26 +1,27 @@
-// import React, { useContext, useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { NavLink } from "react-router-dom";
+import LoadingSpinner from "../../Shared/LoadingSpinner/LoadingSpinner";
 
 const Sidebar = () => {
-  //   const { user, logout } = useContext(AuthContext);
-  //   const [categories, setCategories] = useState([]);
+  const { data: categories = [], isLoading } = useQuery({
+    queryKey: ["categories"],
+    queryFn: async () => {
+      const res = await fetch(
+        `${process.env.REACT_APP_API_URL}/productCategory`
+      );
+      const data = await res.json();
 
-  //   const location = useLocation();
-  //   const navigate = useNavigate();
+      if (data.success) {
+        return data.data;
+      } else {
+        return [];
+      }
+    },
+  });
 
-  //   const handleNavigate = (path) => {
-  //     navigate(path, { state: { from: location } });
-  //   };
-
-  //   const handleLogout = () => {
-  //     logout();
-  //   };
-
-  //   useEffect(() => {
-  //     fetch(`${process.env.REACT_APP_serverURL}/categories`)
-  //       .then((res) => res.json())
-  //       .then((data) => setCategories(data.data));
-  //   }, []);
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div className="w-64 border border-gray-300 rounded-md overflow-hidden bg-white dark:bg-gray-900 dark:border-gray-700">
@@ -38,44 +39,20 @@ const Sidebar = () => {
 
         <div className="px-5 py-2 ml-2">
           <ul>
-            <li>
-              <NavLink
-                to={`/category/phones`}
-                className={({ isActive }) =>
-                  isActive
-                    ? "text-blue-700 font-bold before:content-['•'] before:mr-1 before:blue-red-500"
-                    : "text-gray-700 dark:text-gray-400 font-normal"
-                }
-              >
-                Phones
-              </NavLink>
-            </li>
-
-            <li>
-              <NavLink
-                to={`/category/okay`}
-                className={({ isActive }) =>
-                  isActive
-                    ? "text-blue-700 font-bold before:content-['•'] before:mr-1 before:blue-red-500"
-                    : "text-gray-700 dark:text-gray-400 font-normal"
-                }
-              >
-                Okay
-              </NavLink>
-            </li>
-
-            <li>
-              <NavLink
-                to={`/category/laptop`}
-                className={({ isActive }) =>
-                  isActive
-                    ? "text-blue-700 font-bold before:content-['•'] before:mr-1 before:blue-red-500"
-                    : "text-gray-700 dark:text-gray-400 font-normal"
-                }
-              >
-                laptop
-              </NavLink>
-            </li>
+            {categories?.map((category) => (
+              <li key={category?._id}>
+                <NavLink
+                  to={`/category/${category._id}`}
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-blue-700 font-bold before:content-['•'] before:mr-1 before:blue-red-500"
+                      : "text-gray-700 dark:text-gray-400 font-normal"
+                  }
+                >
+                  {category.name}
+                </NavLink>
+              </li>
+            ))}
           </ul>
         </div>
       </div>

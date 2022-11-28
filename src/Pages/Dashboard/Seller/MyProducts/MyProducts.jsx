@@ -191,9 +191,11 @@ const MyProducts = () => {
                         }
                       >
                         <HiOutlineTrendingUp className="w-5 h-5 mr-2" />
-                        {product.status === "Sold" || product?.promoted
-                          ? "Not Available"
-                          : "Advertise"}
+                        {product.status === "Sold"
+                          ? "Sold"
+                          : product?.promoted
+                          ? "Promoted"
+                          : "Promote"}
                       </Button>
                     </div>
                   </td>

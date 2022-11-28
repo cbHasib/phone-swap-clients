@@ -1,5 +1,7 @@
-import { Card } from "flowbite-react";
-import React, { useContext } from "react";
+import { Button, Card, Spinner } from "flowbite-react";
+import React, { useContext, useState } from "react";
+import toast from "react-hot-toast";
+import { HiBadgeCheck } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../../Contexts/UserContext";
 import useDbUser from "../../../hooks/useDbUser";
@@ -10,9 +12,41 @@ const DashboardHome = () => {
   const { user, loading } = useContext(AuthContext);
   const [dbUser, isDbUserLoading] = useDbUser(user?.email);
 
+  const [VerifyLoading, setVerifyLoading] = useState(false);
+
   if (loading || isDbUserLoading) return <LoadingSpinner />;
 
   if (!dbUser) return <ErrorMessage error="User not found" />;
+
+  const handleVerificationRequest = (id) => {
+    setVerifyLoading(true);
+    fetch(`${process.env.REACT_APP_API_URL}/users/verification-request/${id}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify({
+        email: dbUser.email,
+        image: dbUser.image,
+        name: dbUser.name,
+        phone: dbUser.phone,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          toast.success(data.message);
+        } else {
+          toast.error(data.error);
+        }
+        setVerifyLoading(false);
+      })
+      .catch((err) => {
+        toast.error(err.message);
+        setVerifyLoading(false);
+      });
+  };
 
   return (
     <div className="max-w-screen">
@@ -22,16 +56,39 @@ const DashboardHome = () => {
             Welcome{" "}
             <span className="text-blue-600 dark:text-blue-500">
               {dbUser?.name}
-            </span>
+            </span>{" "}
           </h1>
           <img
             className="mb-3 h-36 w-3h-36 rounded-full shadow-lg"
             src={dbUser?.image}
             alt={dbUser?.name}
           />
-          <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
-            {dbUser?.name}
-          </h5>
+          <div className="flex flex-col justify-center items-center">
+            <div className="flex justify-center items-center gap-2">
+              <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
+                {dbUser?.name}
+              </h5>
+              {dbUser?.isVerified && (
+                <HiBadgeCheck className="text-green-500 text-2xl" />
+              )}
+            </div>
+            {dbUser.role === "seller" && !dbUser.isVerified && (
+              <Button
+                size="xs"
+                className="ml-2"
+                color="warning"
+                disabled={VerifyLoading}
+                onClick={() => handleVerificationRequest(dbUser?._id)}
+              >
+                {VerifyLoading ? (
+                  <Spinner className="mr-1 w-3 h-3" />
+                ) : (
+                  <HiBadgeCheck className="mr-1" />
+                )}
+                {VerifyLoading ? "Verifying..." : "Verify Your Account"}
+              </Button>
+            )}
+          </div>
           <span className="text-sm text-gray-500 dark:text-gray-400">
             {dbUser?.email}
           </span>
