@@ -46,10 +46,28 @@ const PhonesCardHor = ({
 
   const handleAddToWishlist = () => {
     setWishlistLoading(true);
-    setTimeout(() => {
-      setWishlistLoading(false);
-      toast.success("Added to Wishlist");
-    }, 2000);
+
+    fetch(`${process.env.REACT_APP_API_URL}/wishlist/add/${_id}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setWishlistLoading(false);
+          toast.success(data.message);
+        } else {
+          setWishlistLoading(false);
+          toast.error(data.error);
+        }
+      })
+      .catch((err) => {
+        setWishlistLoading(false);
+        toast.error(err.message);
+      });
   };
 
   const handleReport = () => {
