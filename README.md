@@ -1,70 +1,56 @@
-# Getting Started with Create React App
+# PhoneSwap - React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was made by [Hasibul Hasan](https://github.com/cbHasib) with [React JS](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+<br>
 
-In the project directory, you can run:
+## **`What I used?`**
 
-### `npm start`
+Mainly I have used these as my coding: \
+<span style="color:#00C707">**1. HTML, CSS, TailwindCSS, ReactJS, JavaScript for Front-end** </span> \
+<span style="color:#00C707">**2. NodeJS with ExpressJS for Server Site** </span> \
+<span style="color:#00C707">**2. MongoDB for Database** </span>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+<br>
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## **`Feature List`**
 
-### `npm test`
+In the project directory, you will find these feature: \
+<span style="color:#00C49F">**1. Fully Responsive** </span> \
+<span style="color:#00C49F">**2. Dark Mode** </span> \
+<span style="color:#00C49F">**3. Implement Three Dashboard (Admin, Seller, Buyer)** </span> \
+<span style="color:#00C49F">**4. Login & Register using email, google, github** </span> \
+<span style="color:#00C49F">**5. JWT & Admin, Seller, Buyer Secure Route** </span> \
+<span style="color:#00C49F">**6. Blog** </span> \
+<span style="color:#00C49F">**7. Single Blog Template** </span> \
+<span style="color:#00C49F">**8. Blog Post View Count** </span>\
+<span style="color:#00C49F">**9. Blog Admin Panel** </span>\
+<span style="color:#00C49F">**10. Dashboard** </span>\
+<span style="color:#00C49F">**11. Admin Dashboard to Manage all sellers, buyers, products, and lots of more** </span>\
+<span style="color:#00C49F">**12. Can be booked and buy a product** </span>\
+<span style="color:#00C49F">**13. Seller can make request for verification to admin** </span>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+<br>
 
-### `npm run build`
+## **`Useful Links`**
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+**1. [Github Client Side Repository](https://github.com/programming-hero-web-course-4/b612-used-products-resale-clients-side-cbHasib)** \
+**2. [Github Server Side Repository](https://github.com/programming-hero-web-course-4/b612-used-products-resale-server-side-cbHasib)** \
+**3. [Live Website](https://phone-swaps.web.app)**
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+<br>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## **`Credits`**
 
-### `npm run eject`
+PhoneSwap acknowledge the hard work and contribution of the following third party libraries and framework. <br> We used and take inspiration from the following third party libraries/framework.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+**1. [React Router](https://tailwindcss.com/) - React Router** \
+**2. [TailwindCSS](https://tailwindcss.com/) - CSS Framework** \
+**3. [Flowbite](https://flowbite.com/) - Flowbite CSS plugin** \
+**4. [Firebase](https://firebase.google.com/) - Using for authentication and deploy** \
+**5. [React Router](https://reactrouter.com/) - Client side routing** \
+**6. [React Hot Toast](https://react-hot-toast.com/) - React Hot Toast for Showing Toast to the user**\
+**7. [React Icons](https://react-icons.github.io/react-icons/) - React Icons for using various icons**\
+**8. [React Hook Form](https://react-hook-form.com/) - React hook Form Make the think more easy with Form**\
+**9. [TanStack Query](https://tanstack.com/query/v4) - Using For Data Processing**\
+**10. [Axios](https://axios-http.com/) - Using For Data Processing**
