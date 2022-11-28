@@ -93,7 +93,6 @@ const Phones = () => {
           setIsModalOpen(false);
           setModalContent(null);
           reset();
-          refetch();
         } else {
           toast.error(data.message);
           setBookLoading(false);
@@ -103,6 +102,7 @@ const Phones = () => {
         toast.error(err.message);
         setBookLoading(false);
       });
+    refetch();
   };
 
   return (
@@ -114,6 +114,7 @@ const Phones = () => {
             product={phone}
             setIsModalOpen={setIsModalOpen}
             setModalContent={setModalContent}
+            bookLoading={isModalOpen}
           />
         ))}
       </div>
@@ -127,7 +128,6 @@ const Phones = () => {
             onClose={() => {
               setIsModalOpen(false);
               setModalContent(null);
-              setBookLoading(false);
             }}
           >
             <Modal.Header />

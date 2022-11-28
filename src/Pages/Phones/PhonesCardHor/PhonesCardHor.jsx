@@ -15,9 +15,13 @@ import { GoLocation } from "react-icons/go";
 import { FcApproval } from "react-icons/fc";
 import toast from "react-hot-toast";
 
-const PhonesCardHor = ({ product, setIsModalOpen, setModalContent }) => {
+const PhonesCardHor = ({
+  product,
+  setIsModalOpen,
+  setModalContent,
+  bookLoading,
+}) => {
   const [wishlistLoading, setWishlistLoading] = useState(false);
-  const [bookLoading, setBookLoading] = useState(false);
   const [reportLoading, setReportLoading] = useState(false);
 
   const {
@@ -38,7 +42,6 @@ const PhonesCardHor = ({ product, setIsModalOpen, setModalContent }) => {
   const handleBooking = (id) => {
     setModalContent(product);
     setIsModalOpen(true);
-    setBookLoading(true);
   };
 
   const handleAddToWishlist = () => {

@@ -74,14 +74,14 @@ const Banner = () => {
                   <div className="flex justify-center items-center gap-2 md:gap-5 mx-auto max-w-md flex-col md:flex-row">
                     <Button
                       className="w-1/2"
-                      onClick={() => navigate("/services")}
+                      onClick={() => navigate("/register")}
                       color="warning"
                     >
                       Post Your Ad
                     </Button>
                     <Button
                       className="w-1/2"
-                      onClick={() => navigate("/contact")}
+                      onClick={() => navigate("/category")}
                     >
                       Find Phone
                     </Button>
