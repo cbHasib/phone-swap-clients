@@ -226,7 +226,9 @@ const AddProduct = () => {
                 id="condition"
                 required={true}
                 shadow={true}
-                {...register("condition")}
+                {...register("condition", {
+                  required: true,
+                })}
               >
                 <option disabled defaultChecked value="">
                   Select Condition
@@ -295,6 +297,9 @@ const AddProduct = () => {
               <Label htmlFor="description" value="Product Description" />
             </div>
             <Textarea
+              {...register("description", {
+                required: true,
+              })}
               id="description"
               type="text"
               placeholder="Write a short description about your product"

@@ -180,7 +180,7 @@ const PhonesCardHor = () => {
           </p>
         </div>
 
-        <div className="flex md:flex-col justify-center-center gap-2">
+        <div className="flex flex-wrap md:flex-col justify-center items-center gap-2">
           <Button
             onClick={() => handleBooking(_id)}
             type="button"
@@ -201,7 +201,7 @@ const PhonesCardHor = () => {
 
           <Button
             onClick={() => handleAddToWishlist(_id)}
-            color="warning"
+            color="success"
             size="sm"
             title="Add to Wishlist"
             className="w-1full"

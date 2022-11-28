@@ -65,6 +65,33 @@ const MyProducts = () => {
     }
   };
 
+  const handlePromoteProduct = (id) => {
+    const userConfirmation = window.confirm(
+      "Are you sure you want to promote this product?"
+    );
+    if (userConfirmation) {
+      fetch(`${process.env.REACT_APP_API_URL}/products/seller/promote/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success) {
+            toast.success(data.message);
+          } else {
+            toast.error(data.error);
+          }
+          refetch();
+        })
+        .catch((err) => {
+          toast.error(err.message);
+        });
+    }
+  };
+
   if (loading || isDbUserLoading || isLoading) {
     return <LoadingSpinner />;
   }
@@ -82,6 +109,7 @@ const MyProducts = () => {
                 <th className="px-4 py-3">Product</th>
                 <th className="px-4 py-3">Price</th>
                 <th className="px-4 py-3">Status</th>
+                <th className="px-4 py-3">Promoted</th>
                 <th className="px-4 py-3">Added</th>
                 <th className="px-4 py-3">Actions</th>
               </tr>
@@ -126,6 +154,17 @@ const MyProducts = () => {
                       {product?.status === "Sold" ? "Sold" : "Available"}
                     </span>
                   </td>
+                  <td className="px-4 py-3 text-xs">
+                    <span
+                      className={
+                        product?.promoted
+                          ? "px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100"
+                          : "px-2 py-1 font-semibold leading-tight text-yellow-700 bg-yellow-100 rounded-full dark:bg-yellow-700 dark:text-yellow-100"
+                      }
+                    >
+                      {product?.promoted ? "Promoted" : "Not Promoted"}
+                    </span>
+                  </td>
                   <td className="px-4 py-3 text-sm">{product?.post_time}</td>
                   <td className="px-4 py-3">
                     <div className="flex items-center space-x-4 text-sm">
@@ -138,21 +177,24 @@ const MyProducts = () => {
                         <HiTrash className="w-5 h-5" />
                       </button>
 
-                      {!product?.promoted && product?.status === "Available" && (
-                        <Button
-                          size="xs"
-                          color="light"
-                          disabled={product?.status === "Sold"}
-                          title={
-                            product?.status === "Sold"
-                              ? "Product is Sold"
-                              : "Promote This Ads"
-                          }
-                        >
-                          <HiOutlineTrendingUp className="w-5 h-5 mr-2" />
-                          {product.status === "Sold" ? "Sold" : "Advertise"}
-                        </Button>
-                      )}
+                      <Button
+                        onClick={() => handlePromoteProduct(product?._id)}
+                        size="xs"
+                        color="success"
+                        disabled={
+                          product?.status === "Sold" || product?.promoted
+                        }
+                        title={
+                          product?.status === "Sold" || product?.promoted
+                            ? "Product is Sold"
+                            : "Promote This Ads"
+                        }
+                      >
+                        <HiOutlineTrendingUp className="w-5 h-5 mr-2" />
+                        {product.status === "Sold" || product?.promoted
+                          ? "Not Available"
+                          : "Advertise"}
+                      </Button>
                     </div>
                   </td>
                 </tr>
