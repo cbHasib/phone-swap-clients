@@ -2,11 +2,16 @@ import { useQuery } from "@tanstack/react-query";
 import { Button } from "flowbite-react";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
+import useScrollToTop from "../../../../hooks/useScrollToTop";
+import useTitle from "../../../../hooks/useTitle";
 import ErrorMessage from "../../../Shared/ErrorMessage/ErrorMessage";
 import LoadingSpinner from "../../../Shared/LoadingSpinner/LoadingSpinner";
 
 const VerificationRequest = () => {
   const [errorMessages, setErrorMessages] = useState("");
+
+  useScrollToTop();
+  useTitle("Verification Requests");
 
   const {
     data: verifications = [],

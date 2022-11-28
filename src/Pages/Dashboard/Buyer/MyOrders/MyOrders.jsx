@@ -1,8 +1,12 @@
 import { Button } from "flowbite-react";
 import React from "react";
 import { HiOutlineCreditCard } from "react-icons/hi";
+import useScrollToTop from "../../../../hooks/useScrollToTop";
+import useTitle from "../../../../hooks/useTitle";
 
 const MyOrders = () => {
+  useScrollToTop();
+  useTitle("My Orders");
   const booking = {
     status: "Paid",
   };

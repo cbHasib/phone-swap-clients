@@ -2,9 +2,13 @@ import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import toast from "react-hot-toast";
 import { HiTrash } from "react-icons/hi";
+import useScrollToTop from "../../../../hooks/useScrollToTop";
+import useTitle from "../../../../hooks/useTitle";
 import LoadingSpinner from "../../../Shared/LoadingSpinner/LoadingSpinner";
 
 const Products = () => {
+  useScrollToTop();
+  useTitle("Products");
   const {
     data: allProducts = [],
     isLoading,

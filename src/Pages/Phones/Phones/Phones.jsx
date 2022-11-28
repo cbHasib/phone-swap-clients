@@ -15,6 +15,8 @@ import {
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../../../Contexts/UserContext";
 import useDbUser from "../../../hooks/useDbUser";
+import useScrollToTop from "../../../hooks/useScrollToTop";
+import useTitle from "../../../hooks/useTitle";
 import ErrorMessage from "../../Shared/ErrorMessage/ErrorMessage";
 import LoadingSpinner from "../../Shared/LoadingSpinner/LoadingSpinner";
 import PhonesCardHor from "../PhonesCardHor/PhonesCardHor";
@@ -28,6 +30,9 @@ const Phones = () => {
   const [bookLoading, setBookLoading] = useState(false);
   const { register: bookingData, reset, handleSubmit } = useForm();
   const [dbUser, isDbUserLoading] = useDbUser(user?.email);
+
+  useScrollToTop();
+  useTitle("Shop Phones");
 
   const {
     data: phonesData = [],

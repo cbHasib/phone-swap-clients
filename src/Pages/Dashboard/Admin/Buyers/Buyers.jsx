@@ -3,11 +3,16 @@ import { Button } from "flowbite-react";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { HiTrash } from "react-icons/hi";
+import useScrollToTop from "../../../../hooks/useScrollToTop";
+import useTitle from "../../../../hooks/useTitle";
 import ErrorMessage from "../../../Shared/ErrorMessage/ErrorMessage";
 import LoadingSpinner from "../../../Shared/LoadingSpinner/LoadingSpinner";
 
 const Buyers = () => {
   const [errorMessages, setErrorMessages] = useState("");
+
+  useScrollToTop();
+  useTitle("Buyers");
 
   const {
     data: buyers = [],

@@ -6,10 +6,15 @@ import { AuthContext } from "../../../../Contexts/UserContext";
 import useDbUser from "../../../../hooks/useDbUser";
 import LoadingSpinner from "../../../Shared/LoadingSpinner/LoadingSpinner";
 import { useQuery } from "@tanstack/react-query";
+import useScrollToTop from "../../../../hooks/useScrollToTop";
+import useTitle from "../../../../hooks/useTitle";
 
 const MyProducts = () => {
   const { user, loading } = useContext(AuthContext);
   const [dbUser, isDbUserLoading] = useDbUser(user?.email);
+
+  useScrollToTop();
+  useTitle("My Products");
 
   const {
     data: myProductsAll = [],

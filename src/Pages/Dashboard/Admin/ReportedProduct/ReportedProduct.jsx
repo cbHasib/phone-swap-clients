@@ -1,8 +1,12 @@
 import React from "react";
 import toast from "react-hot-toast";
 import { HiTrash } from "react-icons/hi";
+import useScrollToTop from "../../../../hooks/useScrollToTop";
+import useTitle from "../../../../hooks/useTitle";
 
 const ReportedProduct = () => {
+  useScrollToTop();
+  useTitle("Reported Products");
   const product = {
     product_name: "Product Name",
     price: 100,

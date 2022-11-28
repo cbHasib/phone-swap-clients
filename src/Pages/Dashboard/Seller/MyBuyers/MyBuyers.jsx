@@ -1,8 +1,12 @@
 import { Button } from "flowbite-react";
 import React from "react";
 import toast from "react-hot-toast";
+import useScrollToTop from "../../../../hooks/useScrollToTop";
+import useTitle from "../../../../hooks/useTitle";
 
 const MyBuyers = () => {
+  useScrollToTop();
+  useTitle("My Buyers");
   const buyers = [
     {
       name: "Hasib",

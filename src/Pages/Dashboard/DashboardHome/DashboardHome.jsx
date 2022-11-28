@@ -5,6 +5,8 @@ import { HiBadgeCheck } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../../Contexts/UserContext";
 import useDbUser from "../../../hooks/useDbUser";
+import useScrollToTop from "../../../hooks/useScrollToTop";
+import useTitle from "../../../hooks/useTitle";
 import ErrorMessage from "../../Shared/ErrorMessage/ErrorMessage";
 import LoadingSpinner from "../../Shared/LoadingSpinner/LoadingSpinner";
 
@@ -13,6 +15,9 @@ const DashboardHome = () => {
   const [dbUser, isDbUserLoading] = useDbUser(user?.email);
 
   const [VerifyLoading, setVerifyLoading] = useState(false);
+
+  useScrollToTop();
+  useTitle("Dashboard");
 
   if (loading || isDbUserLoading) return <LoadingSpinner />;
 

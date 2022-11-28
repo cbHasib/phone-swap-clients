@@ -7,11 +7,16 @@ import {
   HiOutlineUserGroup,
   HiOutlineUsers,
 } from "react-icons/hi";
+import useScrollToTop from "../../../../hooks/useScrollToTop";
+import useTitle from "../../../../hooks/useTitle";
 import ErrorMessage from "../../../Shared/ErrorMessage/ErrorMessage";
 import LoadingSpinner from "../../../Shared/LoadingSpinner/LoadingSpinner";
 
 const Dashboard = () => {
   const [errorMessages, setErrorMessages] = useState("");
+
+  useScrollToTop();
+  useTitle("Admin Dashboard");
 
   const { data: counts = [], isLoading } = useQuery({
     queryKey: ["counts"],

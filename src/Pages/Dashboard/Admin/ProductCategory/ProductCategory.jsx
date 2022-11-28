@@ -4,12 +4,16 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { HiTrash } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
+import useScrollToTop from "../../../../hooks/useScrollToTop";
+import useTitle from "../../../../hooks/useTitle";
 import ErrorMessage from "../../../Shared/ErrorMessage/ErrorMessage";
 import LoadingSpinner from "../../../Shared/LoadingSpinner/LoadingSpinner";
 
 const ProductCategory = () => {
   const [errorMessages, setErrorMessages] = useState("");
 
+  useScrollToTop();
+  useTitle("Product Category");
   const navigate = useNavigate();
 
   const {
