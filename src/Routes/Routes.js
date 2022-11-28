@@ -263,9 +263,7 @@ export const routes = createBrowserRouter([
         path: "/dashboard/my-orders",
         element: (
           <PrivateRoute>
-            <BuyerRoute>
-              <MyOrders />
-            </BuyerRoute>
+            <MyOrders />
           </PrivateRoute>
         ),
       },

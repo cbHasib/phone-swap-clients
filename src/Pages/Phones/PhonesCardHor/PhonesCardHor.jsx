@@ -15,7 +15,7 @@ import { GoLocation } from "react-icons/go";
 import { FcApproval } from "react-icons/fc";
 import toast from "react-hot-toast";
 
-const PhonesCardHor = ({ product }) => {
+const PhonesCardHor = ({ product, setIsModalOpen, setModalContent }) => {
   const [wishlistLoading, setWishlistLoading] = useState(false);
   const [bookLoading, setBookLoading] = useState(false);
   const [reportLoading, setReportLoading] = useState(false);
@@ -35,12 +35,10 @@ const PhonesCardHor = ({ product }) => {
     seller_isVerified,
   } = product;
 
-  const handleBooking = () => {
+  const handleBooking = (id) => {
+    setModalContent(product);
+    setIsModalOpen(true);
     setBookLoading(true);
-    setTimeout(() => {
-      setBookLoading(false);
-      toast.success("Booking Successful");
-    }, 2000);
   };
 
   const handleAddToWishlist = () => {
