@@ -19,6 +19,7 @@ const PhonesCardVer = ({
   bookLoading,
   productId,
   handleReport,
+  setModalContent,
 }) => {
   return (
     <div className="max-w-[330px] w-full bg-white rounded-md shadow dark:bg-gray-900 drop-shadow-md dark:text-gray-100 p-3 flex flex-col justify-between text-center hover:-translate-y-1 duration-300 relative">
@@ -129,6 +130,7 @@ const PhonesCardVer = ({
         <Button
           onClick={() => {
             handleBooking(productInfo?._id);
+            setModalContent(productInfo);
           }}
           type="button"
           size="sm"
