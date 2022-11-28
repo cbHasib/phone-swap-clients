@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Button } from "flowbite-react";
 import React, { useContext, useEffect, useState } from "react";
 import { HiOutlineCreditCard } from "react-icons/hi";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../../Contexts/UserContext";
 import useDbUser from "../../../../hooks/useDbUser";
 import useScrollToTop from "../../../../hooks/useScrollToTop";
@@ -15,6 +16,8 @@ const MyOrders = () => {
   const [errorMessages, setErrorMessages] = useState("");
   const { user, loading } = useContext(AuthContext);
   const [dbUser, isDbUserLoading] = useDbUser(user?.email);
+
+  const navigate = useNavigate();
 
   const {
     data: myOrders = [],
@@ -115,6 +118,7 @@ const MyOrders = () => {
                   <td className="px-4 py-3">
                     <div className="flex items-center space-x-4 text-sm">
                       <Button
+                        onClick={() => navigate(`/dashboard/pay/${order?._id}`)}
                         size="xs"
                         color={
                           order?.status === "Booked" ? "warning" : "success"

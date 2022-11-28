@@ -19,6 +19,7 @@ import VerificationRequest from "../Pages/Dashboard/Admin/VerificationRequest/Ve
 import MyOrders from "../Pages/Dashboard/Buyer/MyOrders/MyOrders";
 import MyWishlist from "../Pages/Dashboard/Buyer/MyWishlist/MyWishlist";
 import DashboardHome from "../Pages/Dashboard/DashboardHome/DashboardHome";
+import PaymentPage from "../Pages/Dashboard/Payment/PaymentPage";
 import Profile from "../Pages/Dashboard/Profile/Profile/Profile";
 import UpdateProfile from "../Pages/Dashboard/Profile/UpdateProfile/UpdateProfile";
 import AddProduct from "../Pages/Dashboard/Seller/AddProduct/AddProduct";
@@ -264,6 +265,14 @@ export const routes = createBrowserRouter([
         element: (
           <PrivateRoute>
             <MyOrders />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/dashboard/pay/:id",
+        element: (
+          <PrivateRoute>
+            <PaymentPage />
           </PrivateRoute>
         ),
       },
