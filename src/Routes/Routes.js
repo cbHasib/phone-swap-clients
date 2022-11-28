@@ -73,20 +73,36 @@ export const routes = createBrowserRouter([
   },
   {
     path: "category",
-    element: <PhoneLayout />,
+    element: (
+      <PrivateRoute>
+        <PhoneLayout />
+      </PrivateRoute>
+    ),
     errorElement: <ErrorPage />,
     children: [
       {
         index: true,
-        element: <Phones />,
+        element: (
+          <PrivateRoute>
+            <Phones />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/category",
-        element: <Phones />,
+        element: (
+          <PrivateRoute>
+            <Phones />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/category/:id",
-        element: <Phones />,
+        element: (
+          <PrivateRoute>
+            <Phones />
+          </PrivateRoute>
+        ),
       },
     ],
   },

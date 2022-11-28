@@ -20,6 +20,21 @@ const PhonesCardHor = ({ product }) => {
   const [bookLoading, setBookLoading] = useState(false);
   const [reportLoading, setReportLoading] = useState(false);
 
+  const {
+    condition,
+    description,
+    image,
+    location,
+    original_price,
+    post_time,
+    product_name,
+    resale_price,
+    seller_name,
+    years_used,
+    _id,
+    seller_isVerified,
+  } = product;
+
   const handleBooking = () => {
     setBookLoading(true);
     setTimeout(() => {
@@ -44,46 +59,6 @@ const PhonesCardHor = ({ product }) => {
     }, 2000);
   };
 
-  // const product = {
-  //   _id: 1,
-  //   name: "Product Name kbdfjbjh b jbjbbhuy  ihiefbiu jhsgfduyguyg  ",
-  //   image: "https://picsum.photos/200/300",
-  //   description:
-  //     "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.",
-  //   category: "Category Name",
-  //   condition: "Good",
-  //   location: "Dhaka",
-  //   resale_price: 200,
-  //   original_price: 300,
-  //   years_used: 1,
-  //   post_time: "2021-08-01T12:00:00.000Z",
-  //   seller_name: "Seller Name",
-  //   sellerId: 1,
-  //   seller_isVerified: true,
-
-  //   categoryId: 1,
-  //   promoted: true,
-  //   sold: false,
-  // };
-
-  console.log(product);
-
-  const {
-    _id,
-    product_name: name,
-    image,
-    description,
-    condition,
-
-    location,
-    resale_price,
-    original_price,
-    years_used,
-    post_time,
-    seller_name,
-    seller_isVerified,
-  } = product;
-
   // Date
   const makeDate = new Date(post_time).toDateString().split(" ").slice(1, 4);
   const postDate = makeDate[0] + " " + makeDate[1] + ", " + makeDate[2];
@@ -94,7 +69,7 @@ const PhonesCardHor = ({ product }) => {
       <figure className="w-full md:w-[200px] h-[200px] md:h-[150px] rounded-md">
         <img
           src={image}
-          alt={name}
+          alt={product_name}
           className="object-cover object-center w-full h-full dark:bg-gray-500"
         />
       </figure>
@@ -104,7 +79,7 @@ const PhonesCardHor = ({ product }) => {
           <div className="flex items-center justify-between flex-wrap">
             <div className="flex flex-col">
               <h2 className="text-xl font-bold tracking-wide text-ellipsis">
-                {name}
+                {product_name}
               </h2>
               <div className="flex items-center gap-2">
                 <p className="text-sm font-medium text-gray-600 dark:text-gray-300">
@@ -182,7 +157,7 @@ const PhonesCardHor = ({ product }) => {
           </p>
         </div>
 
-        <div className="flex flex-wrap md:flex-col justify-center gap-2">
+        <div className="flex md:flex-col justify-center-center gap-2">
           <Button
             onClick={() => handleBooking(_id)}
             type="button"
@@ -203,7 +178,7 @@ const PhonesCardHor = ({ product }) => {
 
           <Button
             onClick={() => handleAddToWishlist(_id)}
-            color="success"
+            color="warning"
             size="sm"
             title="Add to Wishlist"
             className="w-1full"

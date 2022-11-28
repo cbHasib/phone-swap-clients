@@ -24,8 +24,6 @@ const AdvertiseItems = () => {
   const [bookLoading, setBookLoading] = useState(false);
   const [productId, setProductId] = useState("");
 
-  // Booking Submit
-  const [submitLoading, setSubmitLoading] = useState(false);
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState(null);
@@ -63,7 +61,7 @@ const AdvertiseItems = () => {
 
   const handleBookSubmit = (data) => {
     const id = data.product_id;
-    setSubmitLoading(true);
+    setBookLoading(true);
     fetch(`${process.env.REACT_APP_API_URL}/products/book/${id}`, {
       method: "POST",
       headers: {
@@ -76,19 +74,19 @@ const AdvertiseItems = () => {
       .then((data) => {
         if (data.success) {
           toast.success("Booking Successful");
-          setSubmitLoading(false);
+          setBookLoading(false);
           setIsModalOpen(false);
           setModalContent(null);
           reset();
           refetch();
         } else {
           toast.error(data.message);
-          setSubmitLoading(false);
+          setBookLoading(false);
         }
       })
       .catch((err) => {
         toast.error(err.message);
-        setSubmitLoading(false);
+        setBookLoading(false);
       });
   };
 
@@ -327,14 +325,14 @@ const AdvertiseItems = () => {
 
                       <div className="flex w-full">
                         <Button
-                          disabled={submitLoading}
+                          disabled={bookLoading}
                           type="submit"
                           className="w-full  mt-5"
                         >
-                          <div className={`mr-3 ${submitLoading || "hidden"}`}>
+                          <div className={`mr-3 ${bookLoading || "hidden"}`}>
                             <Spinner size="sm" light={true} />
                           </div>
-                          {submitLoading ? "Loading..." : "Book Now"}
+                          {bookLoading ? "Loading..." : "Book Now"}
                         </Button>
                       </div>
                     </form>
