@@ -35,8 +35,8 @@ In the project directory, you will find these feature: \
 
 ## **`Useful Links`**
 
-**1. [Github Client Side Repository](https://github.com/programming-hero-web-course-4/b612-used-products-resale-clients-side-cbHasib)** \
-**2. [Github Server Side Repository](https://github.com/programming-hero-web-course-4/b612-used-products-resale-server-side-cbHasib)** \
+**1. [Github Client Side Repository](https://github.com/cbHasib/phone-swap-clients)** \
+**2. [Github Server Side Repository](https://github.com/cbHasib/phone-swap-server)** \
 **3. [Live Website](https://phone-swaps.web.app)**
 
 <br>

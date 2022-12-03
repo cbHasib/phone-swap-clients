@@ -1,5 +1,5 @@
 import { Badge, Button, Spinner } from "flowbite-react";
-import React from "react";
+import React, { useState } from "react";
 import { HiOutlineBookmark, HiOutlineHeart } from "react-icons/hi";
 import { TbCurrencyTaka } from "react-icons/tb";
 import {
@@ -10,17 +10,44 @@ import {
 import { GoLocation } from "react-icons/go";
 import { FcApproval } from "react-icons/fc";
 import { CiWarning } from "react-icons/ci";
+import toast from "react-hot-toast";
 
 const PhonesCardVer = ({
   product: productInfo,
   handleBooking,
-  handleAddToWishlist,
-  wishlistLoading,
   bookLoading,
   productId,
   handleReport,
   setModalContent,
 }) => {
+  const [wishlistLoading, setWishlistLoading] = useState(false);
+
+  const handleAddToWishlist = (id) => {
+    setWishlistLoading(true);
+
+    fetch(`${process.env.REACT_APP_API_URL}/wishlist/add/${id}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setWishlistLoading(false);
+          toast.success(data.message);
+        } else {
+          setWishlistLoading(false);
+          toast.error(data.error);
+        }
+      })
+      .catch((err) => {
+        setWishlistLoading(false);
+        toast.error(err.message);
+      });
+  };
+
   return (
     <div className="max-w-[330px] w-full bg-white rounded-md shadow dark:bg-gray-900 drop-shadow-md dark:text-gray-100 p-3 flex flex-col justify-between text-center hover:-translate-y-1 duration-300 relative">
       <div className="absolute top-3 right-3 shadow-lg">
