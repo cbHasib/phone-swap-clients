@@ -16,7 +16,7 @@ const MyWishlist = () => {
   useTitle("My Wishlist");
   const [errorMessages, setErrorMessages] = useState("");
   const { user, loading } = useContext(AuthContext);
-  const [dbUser, isDbUserLoading] = useDbUser(user?.email);
+  const [dbUser, isDbUserLoading] = useDbUser(user.email);
 
   const navigate = useNavigate();
 
@@ -26,24 +26,29 @@ const MyWishlist = () => {
     isLoading,
   } = useQuery({
     queryKey: ["myWishlist"],
-    queryFn: async () => {
-      const res = await fetch(
-        `${process.env.REACT_APP_API_URL}/wishlist/${dbUser?.email}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      const data = await res.json();
 
-      if (data.success) {
-        setErrorMessages("");
-        return data.data;
+    queryFn: async () => {
+      if (dbUser) {
+        const res = await fetch(
+          `${process.env.REACT_APP_API_URL}/wishlist/${dbUser?.email}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        const data = await res.json();
+
+        if (data.success) {
+          setErrorMessages("");
+          return data.data;
+        } else {
+          setErrorMessages(data.error);
+          return [];
+        }
       } else {
-        setErrorMessages(data.error);
         return [];
       }
     },

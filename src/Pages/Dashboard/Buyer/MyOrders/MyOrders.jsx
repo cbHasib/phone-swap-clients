@@ -26,23 +26,27 @@ const MyOrders = () => {
   } = useQuery({
     queryKey: ["myOrders"],
     queryFn: async () => {
-      const res = await fetch(
-        `${process.env.REACT_APP_API_URL}/products/booked/${dbUser?.email}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      const data = await res.json();
+      if (dbUser) {
+        const res = await fetch(
+          `${process.env.REACT_APP_API_URL}/products/booked/${dbUser?.email}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        const data = await res.json();
 
-      if (data.success) {
-        setErrorMessages("");
-        return data.data;
+        if (data.success) {
+          setErrorMessages("");
+          return data.data;
+        } else {
+          setErrorMessages(data.error);
+          return [];
+        }
       } else {
-        setErrorMessages(data.error);
         return [];
       }
     },
