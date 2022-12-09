@@ -193,7 +193,7 @@ const MyWishlist = () => {
                         <button
                           className="flex items-center justify-between py-2 text-sm font-medium leading-5 text-blue-700 rounded-lg dark:text-gray-400 dark:hover:text-white hover:text-blue-900 focus:outline-none focus:shadow-outline-gray"
                           aria-label="Delete"
-                          title="Delete This Seller"
+                          title="Delete This Product From Wishlist"
                           onClick={() => handleDeleteWishlist(order?._id)}
                         >
                           <HiTrash className="w-5 h-5" />

@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "flowbite-react";
 import React, { useContext, useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 import { HiOutlineCreditCard } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../../Contexts/UserContext";
@@ -58,6 +59,30 @@ const MyOrders = () => {
 
   if (loading || isDbUserLoading || isLoading) return <LoadingSpinner />;
   if (errorMessages) return <ErrorMessage error={errorMessages} />;
+
+  const handleCancelOrder = (email, id, productId) => {
+    if (window.confirm("Are you sure you want to cancel this order?")) {
+      fetch(
+        `${process.env.REACT_APP_API_URL}/products/booked/${email}/${id}/${productId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success) {
+            toast.success(data.message);
+            refetch();
+          } else {
+            toast.error(data.error);
+          }
+        });
+    }
+  };
 
   return (
     <div className="px-5">
@@ -121,6 +146,25 @@ const MyOrders = () => {
                   </td>
                   <td className="px-4 py-3">
                     <div className="flex items-center space-x-4 text-sm">
+                      <Button
+                        onClick={() => {
+                          handleCancelOrder(
+                            dbUser.email,
+                            order?._id,
+                            order?.product_id
+                          );
+                        }}
+                        size="xs"
+                        color={
+                          order?.status === "Booked" ? "failure" : "success"
+                        }
+                        disabled={order?.status === "Paid"}
+                        title={
+                          order?.status === "Booked" ? "Cancel Order" : "Paid"
+                        }
+                      >
+                        Cancel Order
+                      </Button>
                       <Button
                         onClick={() => navigate(`/dashboard/pay/${order?._id}`)}
                         size="xs"
