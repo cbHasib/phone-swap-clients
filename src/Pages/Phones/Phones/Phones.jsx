@@ -94,7 +94,7 @@ const Phones = () => {
           setModalContent(null);
           reset();
         } else {
-          toast.error(data.message);
+          toast.error(data.error);
           setBookLoading(false);
         }
       })
