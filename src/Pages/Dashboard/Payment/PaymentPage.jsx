@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../../../Contexts/UserContext";
 import useDbUser from "../../../hooks/useDbUser";
+import useTitle from "../../../hooks/useTitle";
 import ErrorMessage from "../../Shared/ErrorMessage/ErrorMessage";
 import LoadingSpinner from "../../Shared/LoadingSpinner/LoadingSpinner";
 
@@ -44,6 +45,7 @@ const PaymentPage = () => {
       });
   }, [dbUser, id]);
 
+  useTitle(`Pay for ${bookingProduct?.product_name}`);
   if (loading || isDbUserLoading || isPaymentLoading) return <LoadingSpinner />;
   if (errorMessages) return <ErrorMessage error={errorMessages} />;
 
