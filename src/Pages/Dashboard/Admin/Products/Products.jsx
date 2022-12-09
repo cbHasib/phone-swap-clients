@@ -133,10 +133,19 @@ const Products = () => {
                       <button
                         className="flex items-center justify-between py-2 text-sm font-medium leading-5 text-blue-700 rounded-lg dark:text-gray-400 dark:hover:text-white hover:text-blue-900 focus:outline-none focus:shadow-outline-gray"
                         aria-label="Delete"
-                        title="Delete This Product"
+                        title={
+                          product?.status === "Paid"
+                            ? "Product Already Sold"
+                            : "Delete This Product"
+                        }
+                        disabled={product?.status === "Paid"}
                         onClick={() => handleDeleteProduct(product?._id)}
                       >
-                        <HiTrash className="w-5 h-5" />
+                        <HiTrash
+                          className={`w-5 h-5 ${
+                            product?.status === "Paid" && "opacity-50"
+                          }`}
+                        />
                       </button>
                     </div>
                   </td>

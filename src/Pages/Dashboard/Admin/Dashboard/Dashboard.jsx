@@ -48,7 +48,8 @@ const Dashboard = () => {
     return <ErrorMessage error={errorMessages} />;
   }
 
-  const { productCount, sellerCount, buyerCount, adminCount } = counts; // totalUserCount is not used but available
+  const { productCount, sellerCount, buyerCount, adminCount, totalOrderCount } =
+    counts; // totalUserCount is not used but available
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -67,7 +68,7 @@ const Dashboard = () => {
           <HiOutlineShoppingCart className="stroke-current text-blue-800 dark:text-gray-800 transform transition-transform duration-500 ease-in-out w-8 h-8" />
         </div>
         <div className="text-right">
-          <p className="text-2xl">000</p>
+          <p className="text-2xl">{totalOrderCount}</p>
           <p>Orders</p>
         </div>
       </div>
